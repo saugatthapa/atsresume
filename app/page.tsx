@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 import { ClipboardPaste, Download, FileCheck2, Gauge, LockKeyhole, ScanSearch, SearchCheck, ShieldCheck, Sparkles, Stamp, Upload, WandSparkles } from "lucide-react";
 import { ActiveUsersBadge } from "@/components/ActiveUsersBadge";
 import { PricingCards } from "@/components/PricingCards";
@@ -46,7 +47,14 @@ const seoBlocks = [
   ["Safe guidance", "Use estimated ATS insights as practical guidance, never as a guarantee of hiring results."]
 ];
 
-export default function HomePage() {
+export default async function HomePage({ searchParams }: { searchParams: Promise<{ _ptxn?: string; token?: string }> }) {
+  const { _ptxn: paddleTransactionId, token } = await searchParams;
+  if (paddleTransactionId) {
+    const params = new URLSearchParams({ _ptxn: paddleTransactionId });
+    if (token) params.set("token", token);
+    redirect(`/checkout?${params.toString()}`);
+  }
+
   return (
     <main>
       <JsonLd
