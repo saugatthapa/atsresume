@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Analysis {
+  id                 String   @id @default(cuid())
+  token              String   @unique
+  resumeText         String?
+  jobDescriptionText String?
+  analysisJson       Json
+  paidStatus         Boolean  @default(false)
+  paymentProvider    String?
+  paymentSessionId   String?
+  paymentOrderId     String?
+  paymentStatus      String?
+  createdAt          DateTime @default(now())
+  expiresAt          DateTime
+}

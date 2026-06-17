@@ -1,0 +1,45 @@
+{
+  "name": "jobresumematch",
+  "version": "1.0.0",
+  "description": "JobResumeMatch - free ATS resume checker for job descriptions.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "qa:report": "node scripts/qa-report-quality.mjs",
+    "qa:no-hallucinations": "node scripts/qa-no-hallucinated-facts.mjs",
+    "qa:upload": "node scripts/qa-upload-parsing.mjs",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "docx": "^9.7.1",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.18.0",
+    "mammoth": "^1.12.0",
+    "next": "^16.2.9",
+    "pdf-parse": "^1.1.1",
+    "prisma": "^6.19.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.9",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3"
+  }
+}

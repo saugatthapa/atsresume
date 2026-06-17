@@ -1,0 +1,73 @@
+
+
+Preview copy - Created with JobResumeMatch.com
+JobResumeMatch ATS Report
+Estimated resume-to-job match score
+76/100
+Good match
+ATS Match Summary
+Your resume has an estimated ATS match score of 76/100. It already aligns with TypeScript, React, Next.js,
+JavaScript, while the biggest opportunities are Prisma, PostgreSQL, Accessibility, UI components, Testing.
+Missing Keywords
+PrismaPostgreSQLAccessibilityTesting
+Matched Keywords
+ReactNext.jsTypeScriptJavaScriptTailwind CSSREST APIsSEO
+Core Web VitalsGitHubResponsive designPerformance optimizationVercel
+HTMLCSS
+Skills Found
+ReactNext.jsTypeScriptJavaScriptTailwind CSSREST APIsSEO
+Core Web VitalsGitHubResponsive designPerformance optimizationVercel
+HTMLCSS
+Skills Missing
+PrismaPostgreSQLAccessibilityTesting
+Job-Tailored Summary
+Frontend-focused professional targeting a Frontend Developer role, with hands-on experience in React,
+Next.js, TypeScript, JavaScript. Brings a practical mix of implementation quality, responsive UI thinking, API
+integration, and performance-minded delivery to help teams ship faster, more reliable product experiences.
+Created with JobResumeMatch.comPage 1 of 3
+
+Preview copy - Created with JobResumeMatch.com
+Improved Bullet Suggestions
+Original
+- Collaborated with product and design to release responsive landing pages.
+Suggestion
+- Collaborated with product and design teams to release responsive landing pages aligned with business goals.
+Original
+- Built responsive UI components with React and TypeScript improving delivery speed and user experience.
+Suggestion
+- Built responsive UI components with React and TypeScript, improving delivery speed and user experience.
+Original
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals
+improvements.
+Suggestion
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals
+improvements.
+Original
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens.
+Suggestion
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens.
+Created with JobResumeMatch.comPage 2 of 3
+
+Preview copy - Created with JobResumeMatch.com
+Optimized Resume Preview
+Aarav Sharma
+aarav.sharma@example.com   +1 555 123 4567   San Francisco, CA   LinkedIn:
+https://linkedin.com/in/aaravsharma GitHub: https://github.com/aaravsharma
+Professional Summary
+Frontend developer with experience building responsive SaaS interfaces using React, TypeScript, Next.js, and modern
+CSS.
+Core Skills
+React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS, REST APIs, GitHub, Vercel
+Work Experience
+Frontend Developer - BrightHire Labs | 2022 - Present
+- Built reusable React and TypeScript components for a hiring analytics dashboard used by 12 internal teams.
+- Improved dashboard load time by 32% by reducing unused client JavaScript and optimizing API calls.
+- Collaborated with product and design teams to release responsive landing pages aligned with business goals.
+- Built responsive UI components with React and TypeScript, improving delivery speed and user experience.
+Projects
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals
+improvements.
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens.
+Education
+BS Computer Science, San Jose State University
+Created with JobResumeMatch.comPage 3 of 3

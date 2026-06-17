@@ -1,0 +1,45 @@
+
+
+Preview copy - Created with JobResumeMatch.com
+JobResumeMatch ATS Report
+Estimated resume-to-job match score
+74/100
+Good match
+ATS Match Summary
+Your resume has an estimated ATS match score of 74/100. It already aligns with React, Next.js, TypeScript,
+Tailwind CSS, while the biggest opportunities are Core Web Vitals, Performance optimization, Accessibility.
+Missing Keywords
+Core Web VitalsPerformance optimizationAccessibility
+Matched Keywords
+ReactNext.jsTypeScriptTailwind CSSREST APIsSEOGitHub
+VercelCSS
+Skills Found
+ReactNext.jsTypeScriptTailwind CSSREST APIsSEOGitHub
+VercelCSSJavaScriptHTMLAPI integration
+Skills Missing
+Core Web VitalsPerformance optimizationAccessibility
+Job-Tailored Summary
+Frontend-focused professional targeting a Frontend Developer role, with hands-on experience in React,
+Next.js, TypeScript, Tailwind CSS. Brings a practical mix of implementation quality, responsive UI thinking,
+API integration, and performance-minded delivery to help teams ship faster, more reliable product
+experiences.
+Created with JobResumeMatch.comPage 1 of 2
+
+Preview copy - Created with JobResumeMatch.com
+Optimized Resume Preview
+Maya Gurung
+Kathmandu, Nepal   maya.gurung@example.com   LinkedIn: https://linkedin.com/in/mayagurung   GitHub:
+https://github.com/mayagurung   Junior Web Developer   PixelWave Labs   2020   2022
+Professional Summary
+Frontend developer building responsive SaaS interfaces with React, TypeScript, Next.js, and REST APIs.
+Core Skills
+React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS, REST APIs, GitHub, Vercel
+Work Experience
+Frontend Developer - CloudNova Studio | 2022 - Present
+- Built reusable React components for customer-facing dashboard screens.
+- Worked with backend developers to connect REST APIs and improve loading states.
+- Created responsive landing pages using JavaScript, HTML, and CSS.
+Projects
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata and responsive layouts.
+- Integrated REST APIs into a job search prototype with empty and error states.
+Created with JobResumeMatch.comPage 2 of 2

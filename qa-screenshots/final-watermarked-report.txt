@@ -1,0 +1,85 @@
+
+
+Preview copy - Created with JobResumeMatch.com
+JobResumeMatch ATS Report
+Estimated resume-to-job match score
+79/100
+Good match
+ATS Match Summary
+Your resume has an estimated ATS match score of 79/100. It already aligns with TypeScript, React, Next.js,
+JavaScript, while the biggest opportunities are Accessibility, UI components, Testing.
+Missing Keywords
+AccessibilityTesting
+Matched Keywords
+ReactNext.jsTypeScriptJavaScriptTailwind CSSREST APIsSEO
+Core Web VitalsGitHubResponsive designPerformance optimizationPrisma
+PostgreSQLVercelHTMLCSS
+Skills Found
+ReactNext.jsTypeScriptJavaScriptTailwind CSSREST APIsSEO
+Core Web VitalsGitHubResponsive designPerformance optimizationPrisma
+PostgreSQLGitVercelHTMLCSS
+Skills Missing
+AccessibilityTesting
+Job-Tailored Summary
+Frontend-focused professional targeting a Frontend Developer role, with hands-on experience in React,
+Next.js, TypeScript, JavaScript. Brings a practical mix of implementation quality, responsive UI thinking, API
+integration, and performance-minded delivery to help teams ship faster, more reliable product experiences.
+Created with JobResumeMatch.comPage 1 of 3
+
+Preview copy - Created with JobResumeMatch.com
+Improved Bullet Suggestions
+Original
+- Collaborated with product and design to release landing pages.
+Suggestion
+- Strengthened Collaborated with product and design to release landing pages, emphasizing TypeScript, React,
+Next.js to support frontend developer outcomes and measurable business impact.
+Original
+- Debugged frontend issues and improved QA before releases.
+Suggestion
+- Strengthened Debugged frontend issues and improved QA before releases, emphasizing TypeScript, React,
+Next.js to support frontend developer outcomes and measurable business impact.
+Original
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals
+improvements.
+Suggestion
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals
+improvements, emphasizing TypeScript, React, Next.js to support frontend developer outcomes and measurable
+business impact.
+Original
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens.
+Suggestion
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens,
+emphasizing TypeScript, React, Next.js to support frontend developer outcomes and measurable business impact.
+Created with JobResumeMatch.comPage 2 of 3
+
+Preview copy - Created with JobResumeMatch.com
+Optimized Resume Preview
+Aarav Sharma
+aarav.sharma@example.com   +1 555 123 4567   San Francisco, CA   LinkedIn:
+https://linkedin.com/in/aaravsharma   GitHub: https://github.com/aaravsharma
+Professional Summary
+Frontend developer with experience building responsive SaaS interfaces using React, TypeScript, Next.js, and modern
+CSS.
+Core Skills
+React | Next.js | TypeScript | JavaScript | Tailwind CSS | HTML | CSS | REST APIs | Git | GitHub | Node.js | Express.js |
+PostgreSQL | Prisma | MongoDB | Responsive Design | SEO | Core Web Vitals | Vercel | API Integration | Debugging
+Work Experience
+Frontend Developer | NovaTech Solutions - Remote
+March 2024 - Present
+- Built responsive user interfaces with React, Next.js, and TypeScript for a delivery speed and user experience.
+- Improved homepage performance by reducing unused JavaScript and optimizing structure for better Core Web
+Vitals.
+- Integrated REST APIs and handled loading, empty, and error states.
+- Collaborated with product and design to release landing pages.
+- Debugged frontend issues and improved QA before releases.
+Junior Web Developer | BrightWeb Studio - Kathmandu, Nepal
+January 2023 - February 2024
+- Converted Figma designs into responsive pages with React and Tailwind CSS.
+- Created reusable components and improved API integration across client projects.
+Projects
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals
+improvements.
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens.
+Education
+BS Computer Science, San Jose State University
+Created with JobResumeMatch.comPage 3 of 3

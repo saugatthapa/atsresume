@@ -1,0 +1,22 @@
+Aarav Sharma
+aarav.sharma@example.com | +1 555 123 4567 | San Francisco, CA
+LinkedIn: https://linkedin.com/in/aaravsharma GitHub: https://github.com/aaravsharma
+
+Professional Summary
+Frontend developer with experience building responsive SaaS interfaces using React, TypeScript, Next.js, and modern CSS.
+
+Skills
+React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS, REST APIs, GitHub, Vercel
+
+Work Experience
+Frontend Developer - BrightHire Labs | 2022 - Present
+- Built reusable React and TypeScript components for a hiring analytics dashboard used by 12 internal teams.
+- Improved dashboard load time by 32% by reducing unused client JavaScript and optimizing API calls.
+- Partnered with design and product to launch responsive candidate review workflows across desktop and mobile.
+
+Projects
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata, responsive layouts, and Core Web Vitals improvements.
+- Integrated REST APIs into a job search prototype and added loading, empty, and error states for key screens.
+
+Education
+BS Computer Science, San Jose State University

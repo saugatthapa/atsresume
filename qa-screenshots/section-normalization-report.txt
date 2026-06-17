@@ -1,0 +1,48 @@
+
+
+Preview copy - Created with JobResumeMatch.com
+JobResumeMatch ATS Report
+Estimated resume-to-job match score
+69/100
+Good match
+ATS Match Summary
+Your resume has an estimated ATS match score of 69/100. It already aligns with React, Next.js, TypeScript,
+JavaScript, while the biggest opportunities are Core Web Vitals, Responsive design, Performance
+optimization, Accessibility.
+Missing Keywords
+Core Web VitalsResponsive designPerformance optimizationAccessibility
+Matched Keywords
+ReactNext.jsTypeScriptJavaScriptREST APIsSEOGitHubVercel
+Skills Found
+ReactNext.jsTypeScriptJavaScriptREST APIsSEOGitHubVercel
+Tailwind CSSHTMLCSS
+Skills Missing
+Core Web VitalsResponsive designPerformance optimizationAccessibility
+Job-Tailored Summary
+Frontend-focused professional targeting a Frontend Developer role, with hands-on experience in React,
+Next.js, TypeScript, JavaScript. Brings a practical mix of implementation quality, responsive UI thinking, API
+integration, and performance-minded delivery to help teams ship faster, more reliable product experiences.
+Improved Bullet Suggestions
+Original
+- Collaborated with product and design to release responsive landing pages.
+Suggestion
+- Collaborated with product and design teams to release responsive landing pages aligned with business goals.
+Created with JobResumeMatch.comPage 1 of 2
+
+Preview copy - Created with JobResumeMatch.com
+Optimized Resume Preview
+Aarav Sharma
+aarav.sharma@example.com   Remote   LinkedIn: https://linkedin.com/in/aaravsharma   GitHub:
+https://github.com/aaravsharma   Frontend Developer   Northstar UI Studio   2021   2023
+Professional Summary
+Frontend developer with experience building responsive SaaS interfaces using React, TypeScript, Next.js, and modern
+CSS.
+Core Skills
+React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS, REST APIs, GitHub, Vercel
+React, TypeScript, REST APIs
+Work Experience
+- Worked with backend developers to integrate REST APIs for account settings screens.
+- Collaborated with product and design teams to release responsive landing pages aligned with business goals.
+Projects
+- Created a Next.js portfolio site deployed on Vercel with SEO metadata and responsive layouts.
+Created with JobResumeMatch.comPage 2 of 2
