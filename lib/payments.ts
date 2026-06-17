@@ -27,6 +27,8 @@ type PaddleErrorPayload = {
 
 export const paddleCheckoutFailureMessage =
   "Paddle checkout failed. Check that your Paddle API key has transaction.write permission and that your price ID matches the sandbox/live environment.";
+const paddleCheckoutTimeoutMessage =
+  "Paddle checkout timed out. Check that the server can reach Paddle and that the Paddle environment variables are set correctly.";
 
 export class PaddleCheckoutError extends Error {
   constructor(message = paddleCheckoutFailureMessage) {
@@ -62,22 +64,39 @@ export function assertPaddleCheckoutConfig() {
 
 export async function createPaddleTransaction({ token }: { token: string }) {
   const config = assertPaddleCheckoutConfig();
-  const response = await fetch(`${getPaddleApiBase()}/transactions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${config.apiKey}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      items: [{ price_id: config.priceId, quantity: 1 }],
-      custom_data: {
-        token
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  let response: Response;
+
+  try {
+    response = await fetch(`${getPaddleApiBase()}/transactions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${config.apiKey}`,
+        "Content-Type": "application/json"
       },
-      checkout: {
-        url: config.checkoutBaseUrl
-      }
-    })
-  });
+      signal: controller.signal,
+      body: JSON.stringify({
+        items: [{ price_id: config.priceId, quantity: 1 }],
+        custom_data: {
+          token
+        },
+        checkout: {
+          url: config.checkoutBaseUrl
+        }
+      })
+    });
+  } catch (error) {
+    console.error("[paddle.checkout] transaction create request failed", {
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : "Unknown Paddle request failure.",
+      paddleEnvironment: process.env.PADDLE_ENVIRONMENT === "sandbox" ? "sandbox" : "live",
+      checkoutUrl: config.checkoutBaseUrl
+    });
+    throw new PaddleCheckoutError(error instanceof Error && error.name === "AbortError" ? paddleCheckoutTimeoutMessage : paddleCheckoutFailureMessage);
+  } finally {
+    clearTimeout(timeout);
+  }
 
   const payload = (await readPaddleJson(response)) as { data?: PaddleTransaction } & PaddleErrorPayload;
   const transaction = payload.data;
@@ -91,7 +110,7 @@ export async function createPaddleTransaction({ token }: { token: string }) {
       paddleEnvironment: process.env.PADDLE_ENVIRONMENT === "sandbox" ? "sandbox" : "live",
       priceIdPrefix: config.priceId.slice(0, 8)
     });
-    throw new PaddleCheckoutError();
+    throw new PaddleCheckoutError(payload.error?.detail || payload.error?.message || paddleCheckoutFailureMessage);
   }
   return transaction;
 }
