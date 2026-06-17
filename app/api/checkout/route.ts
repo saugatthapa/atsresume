@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { createPaddleTransaction, PaddleCheckoutError } from "@/lib/payments";
 import { ensureDatabase, prisma } from "@/lib/prisma";
 
+function appendResultToken(checkoutUrl: string | null | undefined, token: string) {
+  if (!checkoutUrl) return checkoutUrl;
+  const url = new URL(checkoutUrl);
+  url.searchParams.set("token", token);
+  return url.toString();
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { token } = await request.json();
@@ -29,7 +36,11 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    return NextResponse.json({ checkoutUrl: transaction.checkout?.url, sessionId: transaction.id, transactionId: transaction.id });
+    return NextResponse.json({
+      checkoutUrl: appendResultToken(transaction.checkout?.url, token),
+      sessionId: transaction.id,
+      transactionId: transaction.id
+    });
   } catch (error) {
     if (error instanceof PaddleCheckoutError) {
       return NextResponse.json({ error: error.message }, { status: 502 });

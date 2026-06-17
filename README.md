@@ -37,6 +37,10 @@ If `prisma db push` fails because of a local Prisma schema-engine/runtime issue,
 
 This value controls canonical URLs, `robots.txt`, and `sitemap.xml`.
 
+`NEXT_PUBLIC_PADDLE_CLIENT_TOKEN`: Public Paddle.js client-side token. Required for the `/checkout` page that opens Paddle checkout from `_ptxn` transaction URLs.
+
+`NEXT_PUBLIC_PADDLE_ENVIRONMENT`: Use `sandbox` for sandbox checkout testing or omit/use another value for live checkout.
+
 `PADDLE_API_KEY`: Server-only Paddle Billing API key. Required for production checkout.
 
 `PADDLE_PRICE_ID`: Paddle Price ID for the one-time $4.99 clean export unlock.
@@ -45,7 +49,7 @@ This value controls canonical URLs, `robots.txt`, and `sitemap.xml`.
 
 `PADDLE_ENVIRONMENT`: Use `sandbox` for testing or omit/use another value for live Paddle API.
 
-`PADDLE_CHECKOUT_URL`: Optional approved Paddle checkout/default payment URL. Leave blank to use the default payment URL configured in Paddle.
+`PADDLE_CHECKOUT_URL`: Approved Paddle checkout/default payment URL. Use `http://localhost:3000/checkout` locally or `https://jobresumematch.com/checkout` in production.
 
 ## Run Locally
 
@@ -78,11 +82,12 @@ For production data, use Postgres instead of SQLite. Update `prisma/schema.prism
 Development mode keeps a local mock unlock for fast testing. Production disables `/api/unlock` and uses Paddle Billing plus a verified webhook:
 
 1. Create a Paddle product and one-time price for `$4.99`.
-2. Set `PADDLE_API_KEY`, `PADDLE_PRICE_ID`, `PADDLE_WEBHOOK_SECRET`, and `PADDLE_ENVIRONMENT`.
+2. Set `PADDLE_API_KEY`, `PADDLE_PRICE_ID`, `PADDLE_WEBHOOK_SECRET`, `PADDLE_ENVIRONMENT`, `NEXT_PUBLIC_PADDLE_CLIENT_TOKEN`, and `NEXT_PUBLIC_PADDLE_ENVIRONMENT`.
 3. Configure Paddle notification destination: `https://jobresumematch.com/api/webhooks/payment`.
 4. Subscribe to `transaction.completed` and/or `transaction.paid`.
-5. Paddle `custom_data.token` stores the analysis token; verified payment updates `Analysis.paidStatus=true`.
-6. Clean PDF export is generated server-side only when `paidStatus=true`.
+5. Configure the Paddle default payment link/checkout URL as `https://jobresumematch.com/checkout`.
+6. Paddle `custom_data.token` stores the analysis token; verified payment updates `Analysis.paidStatus=true`.
+7. Clean PDF export is generated server-side only when `paidStatus=true`.
 
 ## Remaining Production Tasks
 

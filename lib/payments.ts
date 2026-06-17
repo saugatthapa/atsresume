@@ -48,7 +48,7 @@ export function getPaddleConfig() {
     apiKey: process.env.PADDLE_API_KEY,
     webhookSecret: process.env.PADDLE_WEBHOOK_SECRET,
     priceId: process.env.PADDLE_PRICE_ID,
-    checkoutBaseUrl: process.env.PADDLE_CHECKOUT_URL
+    checkoutBaseUrl: process.env.PADDLE_CHECKOUT_URL || absoluteUrl("/checkout")
   };
 }
 
@@ -71,14 +71,10 @@ export async function createPaddleTransaction({ token }: { token: string }) {
     body: JSON.stringify({
       items: [{ price_id: config.priceId, quantity: 1 }],
       custom_data: {
-        token,
-        success_url: absoluteUrl(`/payment/success?token=${encodeURIComponent(token)}`),
-        cancel_url: absoluteUrl(`/payment/cancel?token=${encodeURIComponent(token)}`)
+        token
       },
       checkout: {
-        // TODO: In Paddle, this must be an approved checkout URL/default payment URL.
-        // Leave null to use the default payment URL configured in Paddle.
-        url: config.checkoutBaseUrl || null
+        url: config.checkoutBaseUrl
       }
     })
   });
