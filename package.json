@@ -2,11 +2,11 @@
   "name": "jobresumematch",
   "version": "1.0.0",
   "description": "JobResumeMatch - free ATS resume checker for job descriptions.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
     "lint": "eslint .",
     "qa:report": "node scripts/qa-report-quality.mjs",
     "qa:no-hallucinations": "node scripts/qa-no-hallucinated-facts.mjs",
