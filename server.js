@@ -8,6 +8,16 @@ const port = Number(process.env.PORT || 3000);
 
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
+const robotsTxt = `User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /checkout
+Disallow: /payment/
+Disallow: /_next/static/chunks/*.map
+
+Sitemap: https://jobresumematch.com/sitemap.xml
+`;
 const legacyRedirects = new Map([
   ["/blog/how-to-match-resume-to-job-description", "/blog/how-to-match-your-resume-to-a-job-description"],
   ["/blog/how-to-improve-ats-score", "/blog/how-to-improve-your-ats-score"]
@@ -17,6 +27,15 @@ app.prepare().then(() => {
   createServer((req, res) => {
     const parsedUrl = parse(req.url || "/", true);
     const destination = legacyRedirects.get(parsedUrl.pathname || "");
+
+    if (parsedUrl.pathname === "/robots.txt") {
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+      res.setHeader("Content-Length", Buffer.byteLength(robotsTxt));
+      res.end(req.method === "HEAD" ? undefined : robotsTxt);
+      return;
+    }
 
     if (destination) {
       res.statusCode = 308;
