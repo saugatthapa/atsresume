@@ -8,7 +8,7 @@ const links = [
   ["/pricing", "Pricing"],
   ["/contact", "Contact"],
   ["/privacy-policy", "Privacy Policy"],
-  ["/terms", "Terms"],
+  ["/terms", "Terms of Service"],
   ["/refund-policy", "Refund Policy"],
   ["/digital-delivery-policy", "Digital Delivery Policy"]
 ];

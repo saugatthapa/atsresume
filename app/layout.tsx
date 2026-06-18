@@ -12,7 +12,16 @@ export const metadata: Metadata = {
     description: "Match your resume to any job description with a free ATS resume checker. Get a resume match score, missing keywords, bullet suggestions, and clean PDF/DOCX exports.",
     path: "/"
   }),
-  metadataBase: new URL(siteUrl)
+  metadataBase: new URL(siteUrl),
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" }
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

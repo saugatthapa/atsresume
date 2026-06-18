@@ -19,6 +19,8 @@ export async function GET(request: NextRequest) {
   if (!record.paidStatus) {
     return NextResponse.json({ error: "payment_required", message: "Unlock downloads to export your optimized resume." }, { status: 402 });
   }
+
+  // The ATS report is generated from structured analysisJson; raw resume/job text stays null for privacy.
   const parsed = analysisSchema.safeParse(record.analysisJson);
   if (!parsed.success) return NextResponse.json({ error: "Invalid result" }, { status: 500 });
 

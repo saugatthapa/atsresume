@@ -41,6 +41,8 @@ export async function POST(request: NextRequest) {
     await prisma.analysis.create({
       data: {
         token,
+        // Privacy: raw resume/job text can contain personal data, so do not persist it.
+        // Result pages and exports are rebuilt from the structured analysisJson payload.
         resumeText: null,
         jobDescriptionText: null,
         analysisJson: analysis,

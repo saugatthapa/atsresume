@@ -1,13 +1,11 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export function Header() {
   return (
     <header className="sticky top-0 z-40 py-3">
-      <div className="container flex min-h-[62px] items-center justify-between gap-4 rounded-2xl border border-[#dde7f5] bg-white/95 px-4 shadow-[0_14px_34px_-24px_rgba(8,20,51,0.2)] backdrop-blur md:px-6">
-        <Link href="/" className="flex items-center gap-3 text-lg font-extrabold text-[#0b1220]">
-          <span className="grid size-9 place-items-center rounded-xl bg-[#2563eb] text-base font-black text-white">J</span>
-          <span>JobResumeMatch</span>
-        </Link>
+      <div className="container flex min-h-[62px] items-center justify-between gap-2 rounded-2xl border border-[#dde7f5] bg-white/95 px-3 shadow-[0_14px_34px_-24px_rgba(8,20,51,0.2)] backdrop-blur sm:gap-4 sm:px-4 md:px-6">
+        <BrandLogo />
         <nav className="hidden items-center gap-8 text-sm font-semibold text-[#64748b] lg:flex" aria-label="Main navigation">
           <Link href="/ats-resume-checker">ATS Checker</Link>
           <Link href="/resume-match-score">Resume Match Score</Link>

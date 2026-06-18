@@ -36,6 +36,8 @@ export async function requirePaidAnalysis(request: NextRequest): Promise<PaidDow
     };
   }
 
+  // Paid exports intentionally use structured analysisJson only. Raw resume/job text
+  // stays null at analysis creation unless a future feature explicitly needs it.
   const parsed = analysisSchema.safeParse(record.analysisJson);
   if (!parsed.success) {
     return {
