@@ -49,8 +49,6 @@ This value controls canonical URLs, `robots.txt`, and `sitemap.xml`.
 
 `PADDLE_ENVIRONMENT`: Use `sandbox` for testing or omit/use another value for live Paddle API.
 
-`PADDLE_CHECKOUT_URL`: Optional approved Paddle checkout URL override. Leave blank to use the Paddle dashboard default payment link. If you set it, the exact domain must be approved in the matching Paddle sandbox/live environment.
-
 ## Run Locally
 
 ```bash
@@ -85,7 +83,7 @@ Development mode keeps a local mock unlock for fast testing. Production disables
 2. Set `PADDLE_API_KEY`, `PADDLE_PRICE_ID`, `PADDLE_WEBHOOK_SECRET`, `PADDLE_ENVIRONMENT`, `NEXT_PUBLIC_PADDLE_CLIENT_TOKEN`, and `NEXT_PUBLIC_PADDLE_ENVIRONMENT`.
 3. Configure Paddle notification destination: `https://jobresumematch.com/api/webhooks/payment`.
 4. Subscribe to `transaction.completed` and/or `transaction.paid`.
-5. Configure the Paddle default payment link/checkout URL as `https://jobresumematch.com/checkout` in the matching Paddle environment. Leave `PADDLE_CHECKOUT_URL` blank unless you need to override that default with another approved checkout URL.
+5. Configure the Paddle default payment link as `https://jobresumematch.com/checkout` in the matching Paddle environment.
 6. Paddle `custom_data.token` stores the analysis token; verified payment updates `Analysis.paidStatus=true`.
 7. Clean PDF export is generated server-side only when `paidStatus=true`.
 

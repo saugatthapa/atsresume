@@ -44,13 +44,10 @@ export function getPaddleApiBase() {
 }
 
 export function getPaddleConfig() {
-  const checkoutBaseUrl = process.env.PADDLE_CHECKOUT_URL?.trim();
-
   return {
     apiKey: process.env.PADDLE_API_KEY,
     webhookSecret: process.env.PADDLE_WEBHOOK_SECRET,
-    priceId: process.env.PADDLE_PRICE_ID,
-    checkoutBaseUrl: checkoutBaseUrl || undefined
+    priceId: process.env.PADDLE_PRICE_ID
   };
 }
 
@@ -59,7 +56,7 @@ export function assertPaddleCheckoutConfig() {
   if (!config.apiKey || !config.priceId) {
     throw new Error("Paddle checkout is not configured. Set PADDLE_API_KEY and PADDLE_PRICE_ID.");
   }
-  return config as { apiKey: string; webhookSecret?: string; priceId: string; checkoutBaseUrl?: string };
+  return config as { apiKey: string; webhookSecret?: string; priceId: string };
 }
 
 export async function createPaddleTransaction({ token }: { token: string }) {
@@ -80,22 +77,14 @@ export async function createPaddleTransaction({ token }: { token: string }) {
         items: [{ price_id: config.priceId, quantity: 1 }],
         custom_data: {
           token
-        },
-        ...(config.checkoutBaseUrl
-          ? {
-              checkout: {
-                url: config.checkoutBaseUrl
-              }
-            }
-          : {})
+        }
       })
     });
   } catch (error) {
     console.error("[paddle.checkout] transaction create request failed", {
       errorName: error instanceof Error ? error.name : "unknown",
       errorMessage: error instanceof Error ? error.message : "Unknown Paddle request failure.",
-      paddleEnvironment: process.env.PADDLE_ENVIRONMENT === "sandbox" ? "sandbox" : "live",
-      checkoutUrl: config.checkoutBaseUrl
+      paddleEnvironment: process.env.PADDLE_ENVIRONMENT === "sandbox" ? "sandbox" : "live"
     });
     throw new PaddleCheckoutError(error instanceof Error && error.name === "AbortError" ? paddleCheckoutTimeoutMessage : paddleCheckoutFailureMessage);
   } finally {
