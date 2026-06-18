@@ -1,13 +1,14 @@
 "use client";
 
 import { BadgeCheck, Download, LockKeyhole } from "lucide-react";
+import { trackEvent, type AnalyticsEventName } from "@/lib/analytics";
 
 export function DownloadButtons({ token, isPaid, onUnlock }: { token?: string; isPaid: boolean; onUnlock: () => void }) {
   const encodedToken = token ? encodeURIComponent(token) : "";
   const downloads = [
-    { label: "Download Optimized Resume PDF", lockedLabel: "Download Resume PDF - Locked", href: `/api/download-resume-pdf?token=${encodedToken}` },
-    { label: "Download Editable DOCX", lockedLabel: "Download Editable DOCX - Locked", href: `/api/download-resume-docx?token=${encodedToken}` },
-    { label: "Download Full ATS Report PDF", lockedLabel: "Download ATS Report - Locked", href: `/api/download-report-pdf?token=${encodedToken}` }
+    { label: "Download Optimized Resume PDF", lockedLabel: "Download Resume PDF - Locked", href: `/api/download-resume-pdf?token=${encodedToken}`, event: "download_resume_pdf" },
+    { label: "Download Editable DOCX", lockedLabel: "Download Editable DOCX - Locked", href: `/api/download-resume-docx?token=${encodedToken}`, event: "download_resume_docx" },
+    { label: "Download Full ATS Report PDF", lockedLabel: "Download ATS Report - Locked", href: `/api/download-report-pdf?token=${encodedToken}`, event: "download_report_pdf" }
   ];
 
   return (
@@ -19,6 +20,7 @@ export function DownloadButtons({ token, isPaid, onUnlock }: { token?: string; i
             className={`primary-button focus-ring inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl px-5 text-center font-extrabold shadow-sm ${!token ? "pointer-events-none opacity-60" : ""}`}
             href={token ? download.href : undefined}
             aria-disabled={!token}
+            onClick={() => trackEvent(download.event as AnalyticsEventName)}
           >
             <Download aria-hidden="true" size={18} />
             {download.label}

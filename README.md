@@ -1,6 +1,6 @@
 # JobResumeMatch
 
-JobResumeMatch is a production-minded SaaS MVP for checking how well a resume matches a job description. It includes a free watermarked preview flow, private noindex result pages, SEO landing pages, a Groq-ready AI analyzer, and a local keyword-matching fallback.
+JobResumeMatch is a production-minded SaaS for checking how well a resume matches a job description. It includes a free preview flow, private noindex result pages, SEO landing pages, a Groq-ready AI analyzer, and a local keyword-matching fallback.
 
 ## Setup
 
@@ -16,18 +16,18 @@ npm install
 cp .env.example .env
 ```
 
-3. Create the local SQLite database:
+3. Generate Prisma Client and push the schema to Supabase Postgres:
 
 ```bash
 npm run prisma:generate
 npm run prisma:push
 ```
 
-If `prisma db push` fails because of a local Prisma schema-engine/runtime issue, the app also creates the required SQLite `Analysis` table on first API use during local development.
-
 ## Environment Variables
 
-`DATABASE_URL`: SQLite locally, for example `file:./dev.db`. Switch to Postgres later by changing the Prisma provider and URL.
+`DATABASE_URL`: Supabase transaction-mode pooler URL for app runtime, for example `postgresql://postgres.PROJECT_REF:YOUR_SUPABASE_DB_PASSWORD@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres?pgbouncer=true`.
+
+`DIRECT_URL`: Supabase session/direct pooler URL for Prisma schema pushes and migrations, for example `postgresql://postgres.PROJECT_REF:YOUR_SUPABASE_DB_PASSWORD@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres`.
 
 `GROQ_API_KEY`: Optional. When empty, the app uses the local scoring fallback.
 
@@ -43,11 +43,31 @@ This value controls canonical URLs, `robots.txt`, and `sitemap.xml`.
 
 `PADDLE_API_KEY`: Server-only Paddle Billing API key. Required for production checkout.
 
-`PADDLE_PRICE_ID`: Paddle Price ID for the one-time $4.99 clean export unlock.
+`PADDLE_PRICE_ID`: Paddle Price ID for the one-time €4.99 clean export unlock.
 
 `PADDLE_WEBHOOK_SECRET`: Paddle notification destination secret for `/api/webhooks/payment`.
 
 `PADDLE_ENVIRONMENT`: Use `sandbox` for testing or omit/use another value for live Paddle API.
+
+## Supabase Postgres Setup
+
+1. Create a Supabase project.
+2. Open Supabase Dashboard -> Connect -> ORMs -> Prisma.
+3. Copy the transaction-mode pooler URL for `DATABASE_URL`.
+4. Copy the session/direct pooler URL for `DIRECT_URL`.
+5. Replace `[YOUR-PASSWORD]` with the real Supabase database password.
+6. Put these values in `.env` locally and in your hosting provider environment variables.
+7. Generate Prisma Client and push the schema.
+
+```bash
+npm install
+npx prisma generate
+npx prisma db push
+npm run lint
+npm run build
+```
+
+For production deployment, set both `DATABASE_URL` and `DIRECT_URL` in the hosting provider environment variables. Do not run destructive reset commands such as `prisma migrate reset` or `prisma db push --force-reset` against a database with production data.
 
 ## Run Locally
 
@@ -60,8 +80,6 @@ Open `http://localhost:3000`.
 ## Deploy
 
 Deploy to Vercel or another Next.js host. Set production environment variables, run Prisma migration setup for the production database, and set `NEXT_PUBLIC_SITE_URL=https://jobresumematch.com`.
-
-For production data, use Postgres instead of SQLite. Update `prisma/schema.prisma`, set the production `DATABASE_URL`, and run a migration.
 
 ## Google Search Console
 
@@ -77,9 +95,9 @@ For production data, use Postgres instead of SQLite. Update `prisma/schema.prism
 
 ## Payment Integration Notes
 
-Development mode keeps a local mock unlock for fast testing. Production disables `/api/unlock` and uses Paddle Billing plus a verified webhook:
+Development mode keeps a local test unlock for fast testing. Production disables `/api/unlock` and uses Paddle Billing plus a verified webhook:
 
-1. Create a Paddle product and one-time price for `$4.99`.
+1. Create a Paddle product and one-time price for `€4.99`.
 2. Set `PADDLE_API_KEY`, `PADDLE_PRICE_ID`, `PADDLE_WEBHOOK_SECRET`, `PADDLE_ENVIRONMENT`, `NEXT_PUBLIC_PADDLE_CLIENT_TOKEN`, and `NEXT_PUBLIC_PADDLE_ENVIRONMENT`.
 3. Configure Paddle notification destination: `https://jobresumematch.com/api/webhooks/payment`.
 4. Subscribe to `transaction.completed` and/or `transaction.paid`.

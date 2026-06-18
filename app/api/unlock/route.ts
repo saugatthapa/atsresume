@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "forbidden",
-        message: "Mock unlock is disabled in production."
+        message: "Local test unlock is disabled in production."
       },
       { status: 403 }
     );
@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
       where: { token },
       data: {
         paidStatus: true,
-        paymentProvider: "mock",
-        paymentSessionId: `dev_mock_${Date.now()}`,
+        paymentProvider: "development_test",
+        paymentSessionId: `dev_test_${Date.now()}`,
         paymentStatus: "paid"
       }
     });

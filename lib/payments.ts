@@ -34,10 +34,6 @@ export class PaddleCheckoutError extends Error {
   }
 }
 
-export function isDevelopmentMockPaymentsEnabled() {
-  return process.env.NODE_ENV === "development";
-}
-
 export function getPaddleApiBase() {
   return process.env.PADDLE_ENVIRONMENT === "sandbox" ? "https://sandbox-api.paddle.com" : "https://api.paddle.com";
 }

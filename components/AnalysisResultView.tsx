@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { AlertTriangle, BadgeCheck, CheckCircle2, LockKeyhole, SearchX, Sparkles } from "lucide-react";
 import type { AnalysisResult } from "@/lib/schema";
 import { DownloadButtons } from "@/components/DownloadButtons";
 import { KeywordPills } from "@/components/KeywordPills";
 import { PaymentUnlockModal } from "@/components/PaymentUnlockModal";
+import { trackEvent } from "@/lib/analytics";
 
 type ResumeSection = {
   title: string;
@@ -35,6 +37,10 @@ export function AnalysisResultView({ result, token, initialPaid = false }: { res
   const [unlockOpen, setUnlockOpen] = useState(false);
   const resumePreview = useMemo(() => parseResumePreview(result.optimizedResumePreview), [result.optimizedResumePreview]);
   const visibleBullets = result.weakBulletPoints.slice(0, isPaid ? undefined : 1);
+
+  useEffect(() => {
+    trackEvent("result_viewed", { paid: isPaid });
+  }, [isPaid]);
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -150,6 +156,11 @@ export function AnalysisResultView({ result, token, initialPaid = false }: { res
         token={token}
         onClose={() => setUnlockOpen(false)}
       />
+      {!isPaid && (
+        <button className="focus-ring fixed inset-x-4 bottom-4 z-40 inline-flex min-h-[52px] items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 font-extrabold text-white shadow-lg lg:hidden" onClick={() => setUnlockOpen(true)}>
+          Unlock Resume Export Pass - €4.99
+        </button>
+      )}
     </div>
   );
 }
@@ -169,18 +180,18 @@ function UnlockSidebar({ isPaid, token, onUnlock }: { isPaid: boolean; token?: s
       <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-[#2563eb]">
         {isPaid ? <BadgeCheck aria-hidden="true" size={24} /> : <LockKeyhole aria-hidden="true" size={24} />}
       </div>
-      <h2 className="mt-5 text-2xl font-black tracking-tight text-[#0f172a]">{isPaid ? "Your downloads are unlocked" : "Download and unlock full resume"}</h2>
+      <h2 className="mt-5 text-2xl font-black tracking-tight text-[#0f172a]">{isPaid ? "Your downloads are unlocked" : "Free preview available"}</h2>
       <p className="mt-3 text-sm leading-6 text-[#64748b]">
         {isPaid
           ? "Download your optimized resume and full ATS report."
-          : "Preview the key improvements for free. Unlock the complete resume and clean downloads when ready."}
+          : "Unlock the Resume Export Pass to view the full optimized resume and download clean files."}
       </p>
 
       {!isPaid && (
         <div className="mt-5 rounded-2xl border border-blue-100 bg-[#f8fbff] p-5">
-          <p className="text-sm font-extrabold text-[#0f172a]">$4.99 one-time unlock</p>
+          <p className="text-sm font-extrabold text-[#0f172a]">JobResumeMatch Resume Export Pass</p>
           <button className="focus-ring mt-4 inline-flex w-full justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 font-extrabold text-white shadow-sm hover:from-blue-700 hover:to-indigo-700" onClick={onUnlock}>
-            Unlock Full Resume - $4.99
+            Unlock Resume Export Pass - €4.99
           </button>
           <p className="mt-3 text-center text-xs font-semibold text-[#64748b]">No subscription. One-time unlock for this result.</p>
         </div>
@@ -206,9 +217,9 @@ function MobileUnlockCTA({ onUnlock }: { onUnlock: () => void }) {
   return (
     <section className="rounded-3xl border border-blue-100 bg-white p-6 text-center shadow-sm lg:hidden">
       <h2 className="text-xl font-black text-[#0f172a]">Ready for the full resume?</h2>
-      <p className="mt-2 text-sm leading-6 text-[#64748b]">Unlock the complete optimized resume, all rewrite suggestions, and clean PDF/DOCX downloads.</p>
+      <p className="mt-2 text-sm leading-6 text-[#64748b]">Unlock the Resume Export Pass for the complete optimized resume, all rewrite suggestions, and clean PDF/DOCX downloads.</p>
       <button className="focus-ring mt-4 inline-flex rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 font-extrabold text-white shadow-sm" onClick={onUnlock}>
-        Unlock Full Resume - $4.99
+        Unlock Resume Export Pass - €4.99
       </button>
     </section>
   );
@@ -237,11 +248,11 @@ function ResumeDocument({ preview, locked, onUnlock }: { preview: ReturnType<typ
         <div className="relative z-10 mt-6 rounded-[18px] border border-blue-100 bg-[#f8fbff] p-5 text-center shadow-sm">
           <h3 className="text-xl font-black text-[#0b1220]">Full optimized resume locked</h3>
           <p className="mx-auto mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#64748b]">
-            Your free preview shows the summary, skills, and first few improvements. Unlock the complete optimized resume, all rewrite suggestions, and clean PDF/DOCX downloads.
+            Free preview available. Unlock the Resume Export Pass to view the full optimized resume, all rewrite suggestions, and clean PDF/DOCX downloads.
           </p>
           <p className="mx-auto mt-2 max-w-2xl text-xs font-semibold text-[#64748b]">Unlock to view the full optimized resume, projects, education, and all bullet improvements.</p>
           <button className="primary-button focus-ring mt-4 inline-flex rounded-xl px-5 py-3 font-extrabold" onClick={onUnlock}>
-            Unlock Full Resume - $4.99
+            Unlock Resume Export Pass - €4.99
           </button>
         </div>
       )}

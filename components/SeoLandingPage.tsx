@@ -4,17 +4,16 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { ResumeJobForm } from "@/components/ResumeJobForm";
 import type { SeoPage } from "@/lib/content";
-import { absoluteUrl } from "@/lib/seo";
 
 export function SeoLandingPage({ page }: { page: SeoPage }) {
-  const breadcrumb = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 2, name: page.h1, item: absoluteUrl(page.slug) }
-    ]
-  };
+  const relatedLinks = [
+    { href: "/ats-resume-checker", label: "ATS resume checker" },
+    { href: "/resume-match-score", label: "Resume match score" },
+    { href: "/resume-keyword-scanner", label: "Resume keyword scanner" },
+    { href: "/match-resume-to-job-description", label: "Match resume to job description" },
+    { href: "/resume-optimizer", label: "Resume optimizer" },
+    { href: "/free-resume-checker", label: "Free resume checker" }
+  ].filter((link) => link.href !== page.slug);
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -29,7 +28,6 @@ export function SeoLandingPage({ page }: { page: SeoPage }) {
     <>
       <Breadcrumbs current={page.h1} />
       <main className="container py-10">
-        <JsonLd data={breadcrumb} />
         <JsonLd data={faq} />
         <section className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <div>
@@ -92,8 +90,44 @@ export function SeoLandingPage({ page }: { page: SeoPage }) {
             </span>
             <h2 className="mt-5 text-2xl font-extrabold text-[#0b1220]">What the free report includes</h2>
             <p className="mt-3 leading-7 text-[#64748b]">
-              Free reports include the score, top missing keywords, matched skills, basic suggestions, an optimized preview, and a watermarked PDF download. Paid unlock removes the watermark and reveals full detail.
+              Free reports include the score, top missing keywords, matched skills, basic suggestions, and an optimized preview. Paid unlock gives the full optimized resume, editable DOCX, clean PDF, and full ATS report for the current resume and job description.
             </p>
+          </div>
+        </section>
+
+        <section className="mt-20 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-[22px] border border-[#dde7f5] bg-white p-7 shadow-[0_14px_34px_-30px_rgba(8,20,51,0.18)]">
+            <h2 className="text-2xl font-black tracking-tight text-[#0b1220]">How to use this checker</h2>
+            <ol className="mt-5 grid gap-3 text-[#64748b]">
+              {["Upload or paste your resume.", "Paste the exact job description you want to apply for.", "Review your estimated resume match score and missing resume keywords.", "Use the resume bullet suggestions and optimized preview to improve the application.", "Unlock clean PDF, editable DOCX, and the full ATS match report only when the result is worth keeping."].map((step, index) => (
+                <li key={step} className="flex gap-3 rounded-2xl bg-[#fbfdff] p-4">
+                  <span className="grid size-7 shrink-0 place-items-center rounded-full bg-blue-50 text-sm font-black text-[#2563eb]">{index + 1}</span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="rounded-[22px] border border-[#dde7f5] bg-white p-7 shadow-[0_14px_34px_-30px_rgba(8,20,51,0.18)]">
+            <h2 className="text-2xl font-black tracking-tight text-[#0b1220]">What you can review</h2>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {["ATS resume match score", "Missing resume keywords", "Matched skills", "Resume keyword match", "Resume bullet suggestions", "Limited optimized resume preview", "Editable DOCX after unlock", "Full ATS match report after unlock"].map((feature) => (
+                <div key={feature} className="flex gap-2 rounded-2xl bg-[#fbfdff] p-4 text-sm font-semibold text-[#53657d]">
+                  <CheckCircle2 aria-hidden="true" size={17} className="mt-0.5 shrink-0 text-[#16a34a]" />
+                  {feature}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-20 rounded-[22px] border border-[#dde7f5] bg-white p-7 shadow-[0_14px_34px_-30px_rgba(8,20,51,0.18)]">
+          <h2 className="text-2xl font-black tracking-tight text-[#0b1220]">Related resume tools and guides</h2>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {relatedLinks.slice(0, 5).map((link) => (
+              <Link key={link.href} href={link.href} className="focus-ring rounded-full border border-[#dde7f5] bg-[#fbfdff] px-4 py-2 text-sm font-extrabold text-[#2563eb] hover:bg-blue-50">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </section>
 

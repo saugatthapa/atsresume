@@ -3,6 +3,7 @@
 import { FileText, LockKeyhole, Sparkles, UploadCloud } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { trackEvent } from "@/lib/analytics";
 
 export function ResumeJobForm() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export function ResumeJobForm() {
     }
     setLoading(true);
     try {
+      trackEvent("resume_check_started", { hasFile: Boolean(file), hasPastedResume: resumeText.trim().length > 0 });
       const form = new FormData();
       form.set("resumeText", resumeText);
       form.set("jobDescription", jobDescription);
@@ -32,6 +34,7 @@ export function ResumeJobForm() {
       const response = await fetch("/api/analyze", { method: "POST", body: form });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Analysis failed.");
+      trackEvent("resume_check_completed");
       router.push(`/result/${data.token}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");

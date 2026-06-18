@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type PaddleEvent = {
   name?: string;
@@ -88,6 +89,7 @@ export function CheckoutLauncher() {
       },
       eventCallback: (event) => {
         if (event.name === "checkout.completed") {
+          trackEvent("checkout_completed");
           window.location.href = successUrl;
         }
         if (event.name === "checkout.closed" && resultToken) {

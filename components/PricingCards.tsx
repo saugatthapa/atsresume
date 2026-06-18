@@ -1,25 +1,55 @@
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 
 const plans = [
-  { name: "Free Preview", price: "$0", detail: "Run analysis, see top gaps, download watermarked PDF.", cta: "Choose Plan" },
-  { name: "Remove Watermark", price: "$4.99", detail: "Unlock the current optimized resume and clean PDF export.", cta: "Unlock Clean Export", recommended: true },
-  { name: "3 Resume Matches", price: "$9.99", detail: "Draft pack pricing for repeated applications.", cta: "Choose Plan" },
-  { name: "7-Day Pass", price: "$14.99", detail: "Draft unlimited pass for a focused job search week.", cta: "Choose Plan" }
+  {
+    name: "Free Preview",
+    price: "$0",
+    detail: "Check your resume against a job description for free and preview the most important improvements.",
+    cta: "Check Resume Free",
+    features: ["ATS match score", "Missing keywords", "Matched skills", "Limited optimized resume preview", "One bullet rewrite preview", "No downloads included"]
+  },
+  {
+    name: "Resume Export Pass",
+    label: "One-time unlock",
+    price: "€4.99",
+    detail: "Export your optimized resume for this job description with clean downloadable files.",
+    cta: "Start Free Check",
+    recommended: true,
+    features: ["Full optimized resume", "Clean resume PDF", "Editable DOCX", "Full ATS match report", "All keyword and bullet suggestions", "No watermark on exports"]
+  }
 ];
 
 export function PricingCards() {
   return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+    <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
       {plans.map((plan) => (
-        <article key={plan.name} className="flex min-h-[320px] flex-col rounded-[24px] border border-white/15 bg-white p-6 text-[#0b1220] shadow-[0_18px_44px_-28px_rgba(0,0,0,0.45)]">
-          <div className="min-h-[78px]">
-            {plan.recommended && <span className="mb-3 inline-flex rounded-full bg-[#16a34a] px-3 py-1 text-xs font-black uppercase text-white">Recommended</span>}
-            <h3 className="max-w-[210px] text-xl font-extrabold leading-[1.35]">{plan.name}</h3>
+        <article
+          key={plan.name}
+          className={`flex min-h-[520px] flex-col rounded-[24px] border bg-white p-7 text-[#0b1220] shadow-[0_18px_44px_-28px_rgba(8,20,51,0.28)] ${
+            plan.recommended ? "border-[#2563eb] ring-4 ring-blue-100" : "border-[#dde7f5]"
+          }`}
+        >
+          <div className="min-h-[118px]">
+            {plan.recommended && <span className="mb-4 inline-flex rounded-full bg-[#16a34a] px-3 py-1 text-xs font-black uppercase text-white">Recommended</span>}
+            <h3 className="text-2xl font-black leading-tight">{plan.name}</h3>
+            {"label" in plan && <p className="mt-2 text-xs font-black uppercase tracking-wide text-[#2563eb]">{plan.label}</p>}
+            <p className="mt-3 text-sm leading-6 text-[#64748b]">{plan.detail}</p>
           </div>
-          <p className="mt-2 text-5xl font-black leading-none text-[#2563eb]">{plan.price}</p>
-          <p className="mt-5 min-h-[72px] text-sm leading-7 text-[#64748b]">{plan.detail}</p>
-          <div className="my-6 h-px bg-[#dde7f5]" />
-          <p className="min-h-[44px] text-sm font-extrabold leading-6 text-[#0b1220]">{plan.name === "Free Preview" ? "Watermarked export included" : "Current MVP checkout placeholder"}</p>
+
+          <p className="mt-6 text-5xl font-black leading-none text-[#2563eb]">{plan.price}</p>
+
+          <div className="my-7 h-px bg-[#dde7f5]" />
+
+          <ul className="grid gap-3 text-sm font-semibold leading-6 text-[#53657d]">
+            {plan.features.map((feature) => (
+              <li key={feature} className="flex gap-2">
+                <CheckCircle2 aria-hidden="true" size={17} className="mt-1 shrink-0 text-[#16a34a]" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
           <Link href="/#checker" className="primary-button focus-ring mt-auto flex h-[52px] items-center justify-center rounded-xl px-4 text-center text-sm font-extrabold shadow-sm">
             {plan.cta}
           </Link>

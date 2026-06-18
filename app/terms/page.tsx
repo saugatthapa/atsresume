@@ -12,7 +12,7 @@ export default function TermsPage() {
         <div className="mt-6 space-y-5 leading-8 text-slate-700">
           <p>JobResumeMatch provides AI-assisted resume suggestions, keyword analysis, and estimated match scoring. It does not guarantee job interviews, hiring outcomes, ATS acceptance, or employer responses.</p>
           <p>Users are responsible for reviewing, editing, and verifying all outputs. Do not add skills, credentials, or experience that you cannot support honestly.</p>
-          <p>The MVP payment flow is a mock implementation. Real checkout, refunds, and payment processing terms should be added before launch.</p>
+          <p>Paid exports are handled through Paddle checkout. Refunds and payment support are handled according to the checkout provider and published product terms.</p>
         </div>
       </main>
     </>

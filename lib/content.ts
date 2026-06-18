@@ -21,7 +21,7 @@ export const seoPages: SeoPage[] = [
     audience: "Job seekers applying to competitive roles who want practical resume feedback before sending an application.",
     tips: ["Mirror important job title language when it is truthful.", "Add required tools and certifications in context, not as a keyword dump.", "Use simple section headings like Experience, Skills, and Education."],
     faq: [
-      { question: "Is this ATS resume checker free?", answer: "Yes. You can run a free analysis and download a watermarked preview. Clean exports are available with a paid unlock." },
+      { question: "Is this ATS resume checker free?", answer: "Yes. You can run a free analysis and preview the most important improvements. Clean PDF, editable DOCX, and the full ATS report are available with the Resume Export Pass." },
       { question: "Does a high score guarantee an interview?", answer: "No. The score is an estimate. Hiring decisions and ATS systems vary by employer." }
     ],
     priority: 0.9,
@@ -37,7 +37,7 @@ export const seoPages: SeoPage[] = [
     tips: ["Use the same resume version for one role at a time.", "Review missing terms before adding them; accuracy matters more than volume.", "Strengthen low-evidence bullets with metrics and outcomes."],
     faq: [
       { question: "What is a good resume match score?", answer: "A score above 80 is usually a strong signal, but the job market, recruiter judgment, and ATS configuration still matter." },
-      { question: "How is the score calculated?", answer: "The MVP combines keyword overlap, skill coverage, role relevance, ATS formatting, and bullet strength." }
+      { question: "How is the score calculated?", answer: "The checker combines keyword overlap, skill coverage, role relevance, ATS formatting, and bullet strength." }
     ],
     priority: 0.9,
     group: "tool"
@@ -97,7 +97,22 @@ export const seoPages: SeoPage[] = [
     tips: ["Improve the top third of your resume first.", "Use active verbs and measurable outcomes.", "Keep formatting simple for ATS parsing."],
     faq: [
       { question: "Will the tool rewrite my resume?", answer: "It provides targeted rewrite suggestions and a preview, while you remain responsible for final edits." },
-      { question: "Can I download the optimized version?", answer: "Free downloads include a watermark. Paid unlock removes it." }
+      { question: "Can I download the optimized version?", answer: "Clean PDF, editable DOCX, and the full ATS report are included with the Resume Export Pass for the current resume and job description." }
+    ],
+    priority: 0.9,
+    group: "tool"
+  },
+  {
+    slug: "/free-resume-checker",
+    title: "Free Resume Checker for Job Applications | JobResumeMatch",
+    description: "Use a free resume checker to compare your resume with a job description, find keyword gaps, and preview job-specific improvements.",
+    h1: "Free Resume Checker for Job Applications",
+    intro: "A free resume checker should help you understand what to improve before you pay for anything. JobResumeMatch compares your resume with a target job description and gives an estimated match score, missing keywords, matched skills, and a limited optimized resume preview.",
+    audience: "Job seekers who want useful resume feedback before deciding whether clean exports are worth purchasing.",
+    tips: ["Paste the exact job description for the role you want.", "Review missing keywords before adding them, and only include terms that reflect your real experience.", "Use the preview to decide whether the Resume Export Pass is worth unlocking for this application."],
+    faq: [
+      { question: "What can I check for free?", answer: "You can check your ATS match score, missing keywords, matched skills, and a limited optimized resume preview for free." },
+      { question: "When do I need the Resume Export Pass?", answer: "Use the Resume Export Pass only when you want clean PDF, editable DOCX, and the full ATS report for the current resume and job description." }
     ],
     priority: 0.9,
     group: "tool"
@@ -266,6 +281,81 @@ export const blogPages: SeoPage[] = [
     faq: [
       { question: "Is keyword optimization cheating?", answer: "No, when it accurately represents your experience." },
       { question: "Can the tool optimize bullets?", answer: "It suggests stronger bullets, and you should review each one before using it." }
+    ],
+    priority: 0.7,
+    group: "blog"
+  },
+  {
+    slug: "/blog/what-is-a-good-ats-resume-match-score",
+    title: "What Is a Good ATS Resume Match Score?",
+    description: "Learn how to interpret an estimated ATS resume match score and what to improve before applying.",
+    h1: "What Is a Good ATS Resume Match Score?",
+    intro: "A good ATS resume match score is a signal that your resume language, skills, and evidence align with the job description. It is not a promise of an interview, but it can help you decide where to focus your edits.",
+    audience: "Applicants who want to understand whether their resume is close enough for a specific role.",
+    tips: ["Treat scores above 80 as a strong alignment signal, not a guarantee.", "Look at missing keywords and weak bullets before changing the resume.", "Compare one resume against one job description at a time."],
+    faq: [
+      { question: "Is a 100 score necessary?", answer: "No. A perfect score is not necessary and can encourage keyword stuffing. A clear, honest, targeted resume matters more." },
+      { question: "Can a low score still get interviews?", answer: "Yes. Referrals, rare experience, timing, and recruiter judgment can matter. Use the score as guidance." }
+    ],
+    priority: 0.7,
+    group: "blog"
+  },
+  {
+    slug: "/blog/best-resume-keywords-for-frontend-developer-jobs",
+    title: "Best Resume Keywords for Frontend Developer Jobs",
+    description: "Find useful frontend developer resume keywords for React, TypeScript, accessibility, performance, APIs, and UI engineering roles.",
+    h1: "Best Resume Keywords for Frontend Developer Jobs",
+    intro: "Frontend developer job descriptions often mix frameworks, languages, product collaboration, performance, accessibility, and testing. The right resume keywords depend on the exact posting and the work you can honestly support.",
+    audience: "Frontend, React, Next.js, and UI engineers tailoring resumes for software roles.",
+    tips: ["Match framework terms like React, Next.js, TypeScript, and Tailwind only when you have used them.", "Show API integration, performance, accessibility, and testing in real project context.", "Connect UI work to business or user outcomes when possible."],
+    faq: [
+      { question: "Should I list every frontend tool?", answer: "No. Prioritize the tools named in the job description and the ones you can discuss confidently." },
+      { question: "Do soft skills matter for frontend roles?", answer: "Yes. Collaboration with design, product, backend, and QA can be valuable when backed by examples." }
+    ],
+    priority: 0.7,
+    group: "blog"
+  },
+  {
+    slug: "/blog/how-to-find-missing-keywords-in-your-resume",
+    title: "How to Find Missing Keywords in Your Resume",
+    description: "Learn how to compare a resume with a job description and identify missing keywords without keyword stuffing.",
+    h1: "How to Find Missing Keywords in Your Resume",
+    intro: "Missing keywords are role-specific skills, tools, responsibilities, or credentials that appear in a job description but are absent or weakly supported in your resume. The goal is not to add every term; it is to make real fit easier to see.",
+    audience: "Job seekers tailoring a resume for a role with specific requirements.",
+    tips: ["Separate required qualifications from nice-to-have phrases.", "Look for repeated tools, certifications, methods, and domain terms.", "Add missing terms inside truthful bullets or skills sections, not as hidden filler."],
+    faq: [
+      { question: "Should I add a keyword if I do not have the skill?", answer: "No. Only add keywords that accurately describe your experience." },
+      { question: "Where should missing keywords go?", answer: "Use the summary, skills section, and experience bullets where the terms naturally fit." }
+    ],
+    priority: 0.7,
+    group: "blog"
+  },
+  {
+    slug: "/blog/ats-resume-checker-vs-resume-parser",
+    title: "ATS Resume Checker vs Resume Parser",
+    description: "Understand the difference between an ATS resume checker and a resume parser, and when each one helps.",
+    h1: "ATS Resume Checker vs Resume Parser",
+    intro: "An ATS resume checker compares your resume to a job description and suggests improvements. A resume parser extracts structured information from a resume. Both can be useful, but they answer different questions.",
+    audience: "Job seekers trying to understand resume tools before applying.",
+    tips: ["Use a checker when you want job-specific keyword and fit guidance.", "Use parser feedback when you need to know whether contact details, roles, dates, and sections are readable.", "Keep formatting simple so both systems and recruiters can understand the resume."],
+    faq: [
+      { question: "Does a parser tell me if my resume matches a job?", answer: "Usually no. A parser extracts information; a checker compares your resume to a target job." },
+      { question: "Do I need both?", answer: "You benefit from readable formatting and job-specific alignment, so both concepts matter." }
+    ],
+    priority: 0.7,
+    group: "blog"
+  },
+  {
+    slug: "/blog/how-to-tailor-a-resume-without-lying",
+    title: "How to Tailor a Resume Without Lying",
+    description: "Tailor your resume to a job description honestly by emphasizing relevant experience, keywords, and evidence.",
+    h1: "How to Tailor a Resume Without Lying",
+    intro: "Tailoring a resume is not about inventing skills. It is about choosing the most relevant truth, making it easier to find, and connecting your experience to the employer's stated needs.",
+    audience: "Applicants who want a stronger resume without exaggerating credentials or experience.",
+    tips: ["Reorder emphasis instead of adding false claims.", "Use job-description keywords only when they match your real background.", "Rewrite bullets to clarify scope, tools, and outcomes you can explain in an interview."],
+    faq: [
+      { question: "Is it okay to use the same wording as the job description?", answer: "Yes, when the wording accurately describes your experience. Avoid copying requirements you cannot support." },
+      { question: "Can tailoring go too far?", answer: "Yes. If the resume creates an expectation you cannot defend, it is no longer useful or trustworthy." }
     ],
     priority: 0.7,
     group: "blog"
