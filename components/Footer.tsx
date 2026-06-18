@@ -4,10 +4,13 @@ const links = [
   ["/ats-resume-checker", "ATS Resume Checker"],
   ["/resume-keyword-scanner", "Resume Keyword Scanner"],
   ["/resume-optimizer", "Resume Optimizer"],
+  ["/about", "About"],
   ["/pricing", "Pricing"],
-  ["/privacy-policy", "Privacy"],
+  ["/contact", "Contact"],
+  ["/privacy-policy", "Privacy Policy"],
   ["/terms", "Terms"],
-  ["/contact", "Contact"]
+  ["/refund-policy", "Refund Policy"],
+  ["/digital-delivery-policy", "Digital Delivery Policy"]
 ];
 
 export function Footer() {
