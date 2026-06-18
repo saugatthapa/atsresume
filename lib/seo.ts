@@ -60,7 +60,7 @@ export function appJsonLd() {
     operatingSystem: "Web",
     description: "ATS resume checker for matching resumes to job descriptions.",
     offers: [
-      { "@type": "Offer", price: "0", priceCurrency: "USD", description: "Free resume preview" },
+      { "@type": "Offer", price: "0", priceCurrency: "EUR", description: "Free resume preview" },
       { "@type": "Offer", price: "4.99", priceCurrency: "EUR", description: "Resume Export Pass for clean PDF, editable DOCX, and full ATS report" }
     ]
   };

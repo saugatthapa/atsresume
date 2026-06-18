@@ -1,20 +1,27 @@
 import type { MetadataRoute } from "next";
-import { allPublicPages } from "@/lib/content";
+import { blogPosts } from "@/lib/blog-posts";
+import { seoPages } from "@/lib/content";
 import { siteUrl } from "@/lib/seo";
+
+type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const entry = (path: string, priority: number, changeFrequency: ChangeFrequency, lastModified = now) => ({
+    url: `${siteUrl}${path}`,
+    lastModified,
+    changeFrequency,
+    priority
+  });
+
   return [
-    { url: `${siteUrl}/`, lastModified: now, priority: 1 },
-    { url: `${siteUrl}/pricing`, lastModified: now, priority: 0.3 },
-    { url: `${siteUrl}/privacy-policy`, lastModified: now, priority: 0.3 },
-    { url: `${siteUrl}/terms`, lastModified: now, priority: 0.3 },
-    { url: `${siteUrl}/contact`, lastModified: now, priority: 0.3 },
-    { url: `${siteUrl}/blog`, lastModified: now, priority: 0.7 },
-    ...allPublicPages.map((page) => ({
-      url: `${siteUrl}${page.slug}`,
-      lastModified: now,
-      priority: page.priority
-    }))
+    entry("/", 1, "weekly"),
+    entry("/pricing", 0.7, "monthly"),
+    entry("/blog", 0.7, "weekly"),
+    ...seoPages.map((page) => entry(page.slug, page.group === "tool" ? 0.8 : 0.7, "monthly")),
+    ...blogPosts.map((post) => entry(post.slug, post.priority, "monthly", new Date(post.updatedAt))),
+    entry("/privacy-policy", 0.3, "yearly"),
+    entry("/terms", 0.3, "yearly"),
+    entry("/contact", 0.3, "yearly")
   ];
 }

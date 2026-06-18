@@ -2,13 +2,24 @@ import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { absoluteUrl } from "@/lib/seo";
 
-export function Breadcrumbs({ current }: { current: string }) {
+type BreadcrumbItem = {
+  name: string;
+  href?: string;
+};
+
+export function Breadcrumbs({ current, items }: { current?: string; items?: BreadcrumbItem[] }) {
+  const trail = items ?? [{ name: current ?? "Current page" }];
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 2, name: current }
+      ...trail.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 2,
+        name: item.name,
+        ...(item.href ? { item: absoluteUrl(item.href) } : {})
+      }))
     ]
   };
 
@@ -22,8 +33,18 @@ export function Breadcrumbs({ current }: { current: string }) {
               Home
             </Link>
           </li>
-          <li aria-hidden="true">/</li>
-          <li className="font-bold text-[#0b1220]">{current}</li>
+          {trail.map((item, index) => (
+            <li key={`${item.name}-${index}`} className="flex items-center gap-2">
+              <span aria-hidden="true">/</span>
+              {item.href ? (
+                <Link href={item.href} className="hover:text-[#2563eb]">
+                  {item.name}
+                </Link>
+              ) : (
+                <span className="font-bold text-[#0b1220]">{item.name}</span>
+              )}
+            </li>
+          ))}
         </ol>
       </nav>
     </>

@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, Gauge, HelpCircle, ListChecks, ShieldCheck, S
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { ResumeJobForm } from "@/components/ResumeJobForm";
+import { blogPosts } from "@/lib/blog-posts";
 import type { SeoPage } from "@/lib/content";
 
 export function SeoLandingPage({ page }: { page: SeoPage }) {
@@ -14,6 +15,7 @@ export function SeoLandingPage({ page }: { page: SeoPage }) {
     { href: "/resume-optimizer", label: "Resume optimizer" },
     { href: "/free-resume-checker", label: "Free resume checker" }
   ].filter((link) => link.href !== page.slug);
+  const readingLinks = blogPosts.slice(0, 2);
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -126,6 +128,14 @@ export function SeoLandingPage({ page }: { page: SeoPage }) {
             {relatedLinks.slice(0, 5).map((link) => (
               <Link key={link.href} href={link.href} className="focus-ring rounded-full border border-[#dde7f5] bg-[#fbfdff] px-4 py-2 text-sm font-extrabold text-[#2563eb] hover:bg-blue-50">
                 {link.label}
+              </Link>
+            ))}
+            <Link href="/blog" className="focus-ring rounded-full border border-[#dde7f5] bg-[#fbfdff] px-4 py-2 text-sm font-extrabold text-[#2563eb] hover:bg-blue-50">
+              Resume matching blog
+            </Link>
+            {readingLinks.map((post) => (
+              <Link key={post.slug} href={post.slug} className="focus-ring rounded-full border border-[#dde7f5] bg-[#fbfdff] px-4 py-2 text-sm font-extrabold text-[#2563eb] hover:bg-blue-50">
+                {post.h1}
               </Link>
             ))}
           </div>
