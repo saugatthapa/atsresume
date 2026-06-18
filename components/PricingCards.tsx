@@ -13,7 +13,7 @@ const plans = [
     name: "Resume Export Pass",
     label: "One-time unlock",
     price: "€4.99",
-    detail: "Export your optimized resume for this job description with clean downloadable files.",
+    detail: "One-time unlock for this resume and job match. Export your optimized resume with clean downloadable files.",
     cta: "Start Free Check",
     recommended: true,
     features: ["Full optimized resume", "Clean resume PDF", "Editable DOCX", "Full ATS match report", "All keyword and bullet suggestions", "No watermark on exports"]
@@ -22,11 +22,11 @@ const plans = [
 
 export function PricingCards() {
   return (
-    <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
+    <div className="mx-auto grid max-w-5xl items-stretch gap-6 md:grid-cols-2">
       {plans.map((plan) => (
         <article
           key={plan.name}
-          className={`flex min-h-[520px] flex-col rounded-[24px] border bg-white p-7 text-[#0b1220] shadow-[0_18px_44px_-28px_rgba(8,20,51,0.28)] ${
+          className={`flex h-full min-h-[500px] flex-col rounded-[24px] border bg-white p-7 text-[#0b1220] shadow-[0_18px_44px_-28px_rgba(8,20,51,0.28)] ${
             plan.recommended ? "border-[#2563eb] ring-4 ring-blue-100" : "border-[#dde7f5]"
           }`}
         >

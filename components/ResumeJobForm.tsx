@@ -1,17 +1,54 @@
 "use client";
 
-import { FileText, LockKeyhole, Sparkles, UploadCloud } from "lucide-react";
-import { useState } from "react";
+import { FileCheck2, FileText, LockKeyhole, Sparkles, UploadCloud } from "lucide-react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
 
+const sampleResume = `Rohan Sharma
+Frontend Developer
+Pokhara, Nepal | rohan.sharma@example.com | github.com/rohansharma | linkedin.com/in/rohansharma
+
+Professional Summary
+Frontend developer with 3 years of experience building responsive SaaS interfaces using React, Next.js, TypeScript, Tailwind CSS, and REST APIs. Experienced in improving page speed, debugging UI issues, collaborating with designers, and shipping accessible components for business users.
+
+Skills
+React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS, REST APIs, Git, GitHub, Vercel, SEO, responsive design, UI components, debugging, Core Web Vitals
+
+Experience
+Frontend Developer, BrightDash SaaS
+- Built reusable React and TypeScript dashboard components used across customer reporting pages.
+- Integrated REST API data into Next.js pages and improved loading states for account managers.
+- Improved responsive layouts for mobile and tablet users, reducing UI support tickets.
+- Collaborated with product and design teams to ship accessible forms, filters, and navigation patterns.
+
+Projects
+Portfolio analytics dashboard using Next.js, Tailwind CSS, GitHub, and Vercel.
+SEO landing page templates with responsive design and reusable UI sections.`;
+
+const sampleJobDescription = `Frontend Developer - SaaS Platform
+
+We are looking for a Frontend Developer to build polished SaaS product experiences using React, Next.js, TypeScript, and Tailwind CSS. The role requires strong UI implementation skills, REST API integration, responsive design, accessibility, and attention to Core Web Vitals.
+
+Responsibilities include building reusable components, improving dashboard performance, connecting frontend pages to backend APIs, collaborating with product and design, writing maintainable TypeScript, and testing user flows. Experience with Prisma, PostgreSQL, Vercel, GitHub workflows, SEO-friendly pages, and modern frontend testing is a plus.`;
+
 export function ResumeJobForm() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [resumeText, setResumeText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  function fillSample() {
+    if ((resumeText.trim() || jobDescription.trim()) && !window.confirm("Replace the current resume and job description text with sample data?")) {
+      return;
+    }
+    setResumeText(sampleResume);
+    setJobDescription(sampleJobDescription);
+    setError("");
+  }
 
   async function submit() {
     setError("");
@@ -52,6 +89,9 @@ export function ResumeJobForm() {
         </div>
         <h2 className="text-3xl font-black tracking-tight text-[#0b1220] md:text-4xl">Get your ATS match score</h2>
         <p className="mt-3 text-base leading-7 text-[#64748b]">Paste your resume and the job description. Upload PDF or DOCX if that is faster.</p>
+        <button type="button" className="focus-ring mt-4 inline-flex min-h-[42px] items-center rounded-xl border border-[#bfd1ea] bg-white px-4 text-sm font-extrabold text-[#2563eb] hover:bg-blue-50" onClick={fillSample}>
+          Try Sample Resume
+        </button>
       </div>
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <div className="rounded-[22px] border border-[#dde7f5] bg-[#fbfdff] p-5">
@@ -66,18 +106,36 @@ export function ResumeJobForm() {
             value={resumeText}
             onChange={(event) => setResumeText(event.target.value)}
           />
-          <label className="mt-3 block">
-            <span className="flex items-center gap-2 text-sm font-bold text-[#64748b]">
-              <UploadCloud aria-hidden="true" size={16} />
-              Or upload PDF/DOCX/TXT
-            </span>
+          <div className="mt-4 rounded-2xl border border-dashed border-[#bfd1ea] bg-white p-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="flex items-center gap-2 text-sm font-black text-[#0b1220]">
+                  <UploadCloud aria-hidden="true" size={17} className="text-[#2563eb]" />
+                  Upload resume file
+                </p>
+                <p className="mt-1 text-xs font-semibold text-[#64748b]">PDF, DOCX, or TXT accepted</p>
+              </div>
+              <button type="button" className="primary-button focus-ring inline-flex min-h-[42px] items-center justify-center rounded-xl px-4 text-sm font-extrabold shadow-sm" onClick={() => fileInputRef.current?.click()}>
+                Choose file
+              </button>
+            </div>
             <input
-              className="focus-ring mt-2 block w-full rounded-2xl border border-dashed border-[#bfd1ea] bg-white p-4 text-sm text-[#64748b]"
+              id="resume-file"
+              ref={fileInputRef}
+              className="sr-only"
               type="file"
+              aria-label="Upload resume file"
               accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
               onChange={(event) => setFile(event.target.files?.[0] ?? null)}
             />
-          </label>
+            <p className="mt-3 text-xs font-semibold text-[#64748b]">or paste your resume text above</p>
+            {file && (
+              <p className="mt-3 inline-flex max-w-full items-center gap-2 rounded-full bg-blue-50 px-3 py-2 text-xs font-extrabold text-[#2563eb]">
+                <FileCheck2 aria-hidden="true" size={15} />
+                <span className="truncate">Selected file: {file.name}</span>
+              </p>
+            )}
+          </div>
         </div>
         <div className="rounded-[22px] border border-[#dde7f5] bg-[#fbfdff] p-5">
           <label htmlFor="job" className="flex items-center gap-2 text-lg font-extrabold text-[#0b1220]">
@@ -104,11 +162,11 @@ export function ResumeJobForm() {
           onClick={submit}
           disabled={loading}
         >
-          {loading ? "Analyzing..." : "Generate ATS Match Score"}
+          {loading ? "Analyzing..." : "Get My ATS Match Score"}
         </button>
         <p className="flex items-center gap-2 text-sm font-semibold text-[#64748b]" aria-live="polite">
           <LockKeyhole aria-hidden="true" size={16} />
-          Privacy-first: no signup required, private noindex result URLs, and we do not sell your resume data.
+          Privacy-first: no signup required, private result links, and we do not sell your resume data.
         </p>
       </div>
     </section>

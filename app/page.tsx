@@ -125,9 +125,9 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
                 <div key={index} className="h-2 rounded-full bg-[#dbe7f8]" style={{ width: `${width}%` }} />
               ))}
             </div>
-            <button className="focus-ring relative z-10 mt-8 h-[38px] rounded-xl bg-[#d97706] px-6 text-sm font-extrabold text-white">
-              Resume Export Pass - €4.99
-            </button>
+            <div className="relative z-10 mt-8 inline-flex min-h-[38px] items-center rounded-xl bg-amber-50 px-4 text-sm font-extrabold text-[#92400e]">
+              Clean exports available with Resume Export Pass
+            </div>
           </div>
           <p className="mt-4 text-xs leading-5 text-[#64748b]">
             Estimated score only. Hiring decisions and ATS systems vary by company.
@@ -191,16 +191,16 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         </div>
       </section>
 
-      <section className="container mt-24 rounded-[28px] bg-[#0b1220] px-8 py-14 text-white md:px-10">
+      <section id="pricing" className="container mt-24 rounded-[28px] bg-[#0b1220] px-8 py-14 text-white md:px-10">
         <h2 className="max-w-4xl text-4xl font-black tracking-tight md:text-5xl">Simple Pricing for Clean Resume Exports</h2>
         <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-300">Check your resume for free. Unlock clean PDF, editable DOCX, and the full ATS report only when the result is worth keeping.</p>
         <div className="mt-10">
           <PricingCards />
         </div>
-        <p className="mt-8 text-sm text-slate-400">One-time unlock for the current resume and job description.</p>
+        <p className="mt-8 text-sm text-slate-400">One-time unlock for this resume and job match.</p>
       </section>
 
-      <section className="container mt-24">
+      <section id="faq" className="container mt-24">
         <h2 className="max-w-4xl text-4xl font-black tracking-tight text-[#0b1220] md:text-5xl">Free ATS Resume Checker for Job Descriptions</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {seoBlocks.map(([title, copy], index) => (
