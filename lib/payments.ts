@@ -1,6 +1,4 @@
 import { createHmac, timingSafeEqual } from "crypto";
-import { absoluteUrl } from "@/lib/seo";
-
 export type PaddleTransaction = {
   id: string;
   status?: string;
@@ -46,11 +44,13 @@ export function getPaddleApiBase() {
 }
 
 export function getPaddleConfig() {
+  const checkoutBaseUrl = process.env.PADDLE_CHECKOUT_URL?.trim();
+
   return {
     apiKey: process.env.PADDLE_API_KEY,
     webhookSecret: process.env.PADDLE_WEBHOOK_SECRET,
     priceId: process.env.PADDLE_PRICE_ID,
-    checkoutBaseUrl: process.env.PADDLE_CHECKOUT_URL || absoluteUrl("/checkout")
+    checkoutBaseUrl: checkoutBaseUrl || undefined
   };
 }
 
@@ -81,9 +81,13 @@ export async function createPaddleTransaction({ token }: { token: string }) {
         custom_data: {
           token
         },
-        checkout: {
-          url: config.checkoutBaseUrl
-        }
+        ...(config.checkoutBaseUrl
+          ? {
+              checkout: {
+                url: config.checkoutBaseUrl
+              }
+            }
+          : {})
       })
     });
   } catch (error) {

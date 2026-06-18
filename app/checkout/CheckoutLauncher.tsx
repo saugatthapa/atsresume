@@ -43,7 +43,14 @@ export function CheckoutLauncher() {
   const transactionId = searchParams.get("_ptxn");
   const resultToken = searchParams.get("token");
   const [scriptReady, setScriptReady] = useState(false);
-  const [status, setStatus] = useState("Preparing secure checkout...");
+
+  const status = useMemo(() => {
+    if (!scriptReady) return "Preparing secure checkout...";
+    if (!paddleClientToken) return "Paddle client-side token is missing. Set NEXT_PUBLIC_PADDLE_CLIENT_TOKEN and redeploy.";
+    if (!transactionId) return "Missing Paddle transaction. Start checkout again from your result page.";
+    if (typeof window !== "undefined" && !window.Paddle) return "Paddle checkout script did not load. Refresh this page or try again.";
+    return "Opening Paddle checkout...";
+  }, [scriptReady, transactionId]);
 
   const successUrl = useMemo(() => {
     if (typeof window === "undefined") return "";
@@ -56,15 +63,12 @@ export function CheckoutLauncher() {
   useEffect(() => {
     if (!scriptReady) return;
     if (!paddleClientToken) {
-      setStatus("Paddle client-side token is missing. Set NEXT_PUBLIC_PADDLE_CLIENT_TOKEN and redeploy.");
       return;
     }
     if (!transactionId) {
-      setStatus("Missing Paddle transaction. Start checkout again from your result page.");
       return;
     }
     if (!window.Paddle) {
-      setStatus("Paddle checkout script did not load. Refresh this page or try again.");
       return;
     }
 
@@ -92,7 +96,6 @@ export function CheckoutLauncher() {
       }
     });
 
-    setStatus("Opening Paddle checkout...");
   }, [scriptReady, resultToken, successUrl, transactionId]);
 
   return (
