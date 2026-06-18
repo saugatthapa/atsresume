@@ -5,13 +5,12 @@ export type PaddleTransaction = {
   custom_data?: { token?: string } | null;
   checkout?: { url?: string | null } | null;
   items?: Array<{ price?: { id?: string } | null; price_id?: string }>;
+  payments?: Array<{ payment_attempt_id?: string; status?: string }>;
 };
 
 export type PaddleEvent = {
   event_type?: string;
-  data?: PaddleTransaction & {
-    payments?: Array<{ payment_attempt_id?: string; status?: string }>;
-  };
+  data?: PaddleTransaction;
 };
 
 type PaddleErrorPayload = {
