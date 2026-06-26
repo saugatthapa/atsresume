@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ensureDatabase, prisma } from "@/lib/prisma";
 import { isExpectedDodoProduct, parseDodoWebhookEvent, verifyDodoWebhook, type DodoWebhookEvent } from "@/lib/payments/dodo";
 
-const paidEvents = new Set(["payment.succeeded"]);
+const paidEvents = new Set(["payment.succeeded", "payment.completed", "checkout.completed", "order.completed"]);
 const loggedEvents = new Set(["payment.failed", "payment.cancelled", "payment.processing", "refund.succeeded"]);
 
 export async function POST(request: NextRequest) {

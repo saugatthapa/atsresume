@@ -41,13 +41,13 @@ This value controls canonical URLs, `robots.txt`, and `sitemap.xml`.
 
 `PAYMENTS_ENABLED`: Set to `true` to allow checkout creation.
 
-`DODO_ENVIRONMENT`: Use `test` for Dodo test mode or `live` after production approval.
+`DODO_ENVIRONMENT`: Use `live` for production Dodo payments. Test and live Dodo values are separate.
 
-`DODO_API_KEY`: Server-only Dodo API key. Do not expose this with `NEXT_PUBLIC_`.
+`DODO_API_KEY`: Server-only Dodo API key. In live mode this must be the live Dodo API key. Do not expose this with `NEXT_PUBLIC_`.
 
-`DODO_PRODUCT_ID`: Dodo product ID for the one-time Resume Export Pass.
+`DODO_PRODUCT_ID`: Dodo product ID for the one-time Resume Export Pass. In live mode this must be the live product ID.
 
-`DODO_WEBHOOK_SECRET`: Dodo webhook signing secret for `/api/webhooks/dodo`.
+`DODO_WEBHOOK_SECRET`: Dodo webhook signing secret for `/api/webhooks/dodo`. In live mode this must come from the live webhook destination settings.
 
 ## Supabase Postgres Setup
 
@@ -95,19 +95,34 @@ Deploy to Vercel or another Next.js host. Set production environment variables, 
 
 ## Payment Integration Notes
 
-Development mode keeps a local test unlock for fast testing. Production disables `/api/unlock` and uses Dodo Payments plus a verified webhook:
+Development mode keeps a local test unlock for fast testing. Production disables `/api/unlock` and uses Dodo Payments plus a verified webhook. Paddle is deprecated and is not active when `PAYMENT_PROVIDER="dodo"`.
 
-1. Create a Dodo one-time product: `JobResumeMatch Resume Export Pass`, `$4.99 USD`, tax category `SaaS`.
-2. Set `PAYMENT_PROVIDER=dodo`, `PAYMENTS_ENABLED=true`, `DODO_ENVIRONMENT=test`, `DODO_API_KEY`, `DODO_PRODUCT_ID`, and `DODO_WEBHOOK_SECRET`.
-3. Configure Dodo webhook destination: `https://jobresumematch.com/api/webhooks/dodo`.
-4. Subscribe to `payment.succeeded` for unlocks. Failed, processing, cancelled, and refund events are logged only.
-5. Dodo checkout metadata stores `{ token, provider: "dodo", product: "resume_export_pass" }`.
-6. Only the verified Dodo webhook updates `Analysis.paidStatus=true`.
-7. Clean exports are generated server-side only when `paidStatus=true`.
+1. In the Dodo live dashboard, create or confirm brand `JobResumeMatch`.
+2. Create a live one-time product: `Resume Export Pass`, `€4.99`, tax-inclusive if configured in Dodo.
+3. Product description: `One-time digital software unlock for the current resume and job match. Includes the full optimized resume, clean resume PDF, editable DOCX, full ATS match report, keyword gaps, and bullet improvement suggestions.`
+4. Configure the live webhook destination: `https://jobresumematch.com/api/webhooks/dodo`.
+5. Copy the live webhook signing secret from that webhook destination into `DODO_WEBHOOK_SECRET`.
+6. Set production env exactly:
+
+```env
+PAYMENT_PROVIDER="dodo"
+PAYMENTS_ENABLED="true"
+DODO_ENVIRONMENT="live"
+DODO_API_KEY="live key"
+DODO_PRODUCT_ID="live product id"
+DODO_WEBHOOK_SECRET="live signing secret"
+NEXT_PUBLIC_SITE_URL="https://jobresumematch.com"
+```
+
+7. Dodo test keys, product IDs, and webhook secrets do not work for live mode. Do not commit real secrets.
+8. Subscribe to the exact successful paid event names sent by the live Dodo dashboard. The app currently treats `payment.succeeded`, `payment.completed`, `checkout.completed`, and `order.completed` as successful unlock events.
+9. Dodo checkout metadata/custom data stores `{ token, provider: "dodo", product: "resume_export_pass", environment: "live" }`.
+10. Only the verified Dodo webhook updates `Analysis.paidStatus=true`. The success URL never unlocks by itself.
+11. Clean exports are generated server-side only when `paidStatus=true`.
 
 ## Remaining Production Tasks
 
-- Replace Dodo test keys with live keys only after a successful test payment and webhook verification.
+- Replace Dodo test keys with live keys in production only after live dashboard setup is complete.
 - Encrypt stored resume text if you decide to persist it; the current API stores analysis output and intentionally avoids storing raw resume/job text.
 - Add persistent rate limiting with Redis or your hosting provider's edge store.
 - Add real server-side PDF/DOCX generation for clean exports.

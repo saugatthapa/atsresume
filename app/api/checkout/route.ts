@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Result not found or expired." }, { status: 404 });
     }
     if (analysis.paidStatus) {
-      return NextResponse.json({ alreadyPaid: true, paidStatus: true, redirectUrl: `/result/${token}` });
+      return NextResponse.json({ alreadyPaid: true, paidStatus: true, redirectUrl: `/result/${encodeURIComponent(token)}` });
     }
 
     const checkout = await createDodoCheckout({ token, analysis });
@@ -50,6 +50,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 502 });
     }
 
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Unable to create checkout." }, { status: 500 });
+    console.error("[checkout] unexpected checkout failure", {
+      provider: process.env.PAYMENT_PROVIDER || "unset",
+      environment: process.env.DODO_ENVIRONMENT === "live" ? "live" : "test",
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : "Unknown checkout failure."
+    });
+    return NextResponse.json({ error: "Checkout could not be started. Please try again in a moment or contact support." }, { status: 500 });
   }
 }

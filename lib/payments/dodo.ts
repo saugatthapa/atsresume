@@ -4,8 +4,13 @@ import type { Analysis } from "@prisma/client";
 type DodoCheckoutResponse = {
   session_id?: string;
   checkout_url?: string;
+  checkout_session_id?: string;
+  payment_link?: string;
+  url?: string;
   payment_id?: string;
   error?: { message?: string; detail?: string; code?: string };
+  message?: string;
+  detail?: string;
 };
 
 export type DodoWebhookEvent = {
@@ -27,6 +32,10 @@ export class DodoCheckoutError extends Error {
 
 export function getDodoApiBase() {
   return process.env.DODO_ENVIRONMENT === "live" ? "https://live.dodopayments.com" : "https://test.dodopayments.com";
+}
+
+function getDodoEnvironment() {
+  return process.env.DODO_ENVIRONMENT === "live" ? "live" : "test";
 }
 
 function getSiteUrl() {
@@ -52,10 +61,18 @@ function assertDodoCheckoutConfig() {
 export async function createDodoCheckout({ token }: { token: string; analysis: Analysis }) {
   const config = assertDodoCheckoutConfig();
   const siteUrl = getSiteUrl();
+  const environment = getDodoEnvironment();
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
 
   try {
+    console.info("[dodo.checkout] creating checkout", {
+      provider: "dodo",
+      environment,
+      hasApiKey: Boolean(config.apiKey),
+      hasProductId: Boolean(config.productId)
+    });
+
     const response = await fetch(`${getDodoApiBase()}/checkouts`, {
       method: "POST",
       headers: {
@@ -70,39 +87,57 @@ export async function createDodoCheckout({ token }: { token: string; analysis: A
         metadata: {
           token,
           provider: "dodo",
-          product: "resume_export_pass"
+          product: "resume_export_pass",
+          environment
+        },
+        custom_data: {
+          token,
+          provider: "dodo",
+          product: "resume_export_pass",
+          environment
         }
       })
     });
 
     const payload = (await readDodoJson(response)) as DodoCheckoutResponse;
-    if (!response.ok || !payload.checkout_url) {
+    const checkoutUrl = payload.checkout_url || payload.payment_link || payload.url;
+    if (!response.ok || !checkoutUrl) {
       console.error("[dodo.checkout] checkout create failed", {
+        provider: "dodo",
+        environment,
+        hasApiKey: Boolean(config.apiKey),
+        hasProductId: Boolean(config.productId),
         status: response.status,
         statusText: response.statusText,
         errorCode: payload.error?.code ?? "unknown",
-        errorMessage: payload.error?.message ?? payload.error?.detail ?? "No Dodo error message returned.",
-        dodoEnvironment: process.env.DODO_ENVIRONMENT === "live" ? "live" : "test"
+        errorMessage: summarizeDodoError(payload)
       });
-      throw new DodoCheckoutError(payload.error?.detail || payload.error?.message);
+      throw new DodoCheckoutError("Checkout could not be started. Please try again in a moment or contact support.");
     }
 
     return {
-      checkoutUrl: payload.checkout_url,
-      sessionId: payload.session_id,
+      checkoutUrl,
+      sessionId: payload.session_id || payload.checkout_session_id,
       paymentId: payload.payment_id
     };
   } catch (error) {
     if (error instanceof DodoCheckoutError) throw error;
     console.error("[dodo.checkout] checkout create request failed", {
+      provider: "dodo",
+      environment,
+      hasApiKey: Boolean(config.apiKey),
+      hasProductId: Boolean(config.productId),
       errorName: error instanceof Error ? error.name : "unknown",
-      errorMessage: error instanceof Error ? error.message : "Unknown Dodo request failure.",
-      dodoEnvironment: process.env.DODO_ENVIRONMENT === "live" ? "live" : "test"
+      errorMessage: error instanceof Error ? error.message : "Unknown Dodo request failure."
     });
-    throw new DodoCheckoutError(error instanceof Error && error.name === "AbortError" ? "Dodo checkout timed out. Try again shortly." : undefined);
+    throw new DodoCheckoutError(error instanceof Error && error.name === "AbortError" ? "Checkout could not be started. Please try again in a moment or contact support." : undefined);
   } finally {
     clearTimeout(timeout);
   }
+}
+
+function summarizeDodoError(payload: DodoCheckoutResponse) {
+  return payload.error?.message || payload.error?.detail || payload.message || payload.detail || "No Dodo error message returned.";
 }
 
 async function readDodoJson(response: Response) {
@@ -150,19 +185,28 @@ function secureCompare(actual: string, expected: string) {
 export function parseDodoWebhookEvent(event: DodoWebhookEvent) {
   const data = event.data;
   const payload = event.payload;
+  const object = findObject(data, "object") || findObject(payload, "object");
   return {
     eventType: event.type || event.event_type,
     token: findString(
       data?.metadata,
       data?.custom_data,
+      object?.metadata,
+      object?.custom_data,
       event.metadata,
       event.custom_data,
       payload?.metadata,
       payload?.custom_data
     ),
-    productId: findStringValue(data, ["product_id", "productId"]) || findStringValue(payload, ["product_id", "productId"]),
-    paymentId: findStringValue(data, ["payment_id", "paymentId", "id"]) || findStringValue(payload, ["payment_id", "paymentId", "id"])
+    productId: findDeepStringValue(event, ["product_id", "productId"]),
+    paymentId: findDeepStringValue(event, ["payment_id", "paymentId", "order_id", "orderId", "checkout_session_id", "checkoutSessionId", "id"])
   };
+}
+
+function findObject(source: unknown, key: string) {
+  if (!source || typeof source !== "object") return undefined;
+  const value = (source as Record<string, unknown>)[key];
+  return value && typeof value === "object" ? (value as Record<string, unknown>) : undefined;
 }
 
 function findString(...sources: Array<unknown>) {
@@ -181,6 +225,28 @@ function findStringValue(source: unknown, keys: string[]) {
     const value = (source as Record<string, unknown>)[key];
     if (typeof value === "string") return value;
   }
+  return undefined;
+}
+
+function findDeepStringValue(source: unknown, keys: string[]): string | undefined {
+  const direct = findStringValue(source, keys);
+  if (direct) return direct;
+  if (!source || typeof source !== "object") return undefined;
+
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      const found = findDeepStringValue(item, keys);
+      if (found) return found;
+    }
+    return undefined;
+  }
+
+  for (const value of Object.values(source)) {
+    if (!value || typeof value !== "object") continue;
+    const found = findDeepStringValue(value, keys);
+    if (found) return found;
+  }
+
   return undefined;
 }
 

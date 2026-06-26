@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
-import { AlertTriangle, BadgeCheck, CheckCircle2, LockKeyhole, SearchX, Sparkles } from "lucide-react";
+import { AlertTriangle, BadgeCheck, CheckCircle2, LockKeyhole, RefreshCw, SearchX, Sparkles } from "lucide-react";
 import type { AnalysisResult } from "@/lib/schema";
 import { DownloadButtons } from "@/components/DownloadButtons";
 import { KeywordPills } from "@/components/KeywordPills";
@@ -32,7 +32,17 @@ const sectionTitles = new Map([
   ["certifications", "Certifications"]
 ]);
 
-export function AnalysisResultView({ result, token, initialPaid = false }: { result: AnalysisResult; token?: string; initialPaid?: boolean }) {
+export function AnalysisResultView({
+  result,
+  token,
+  initialPaid = false,
+  paymentPending = false
+}: {
+  result: AnalysisResult;
+  token?: string;
+  initialPaid?: boolean;
+  paymentPending?: boolean;
+}) {
   const isPaid = initialPaid;
   const [unlockOpen, setUnlockOpen] = useState(false);
   const resumePreview = useMemo(() => parseResumePreview(result.optimizedResumePreview), [result.optimizedResumePreview]);
@@ -44,6 +54,8 @@ export function AnalysisResultView({ result, token, initialPaid = false }: { res
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      {paymentPending && !isPaid && <PaymentPendingNotice token={token} />}
+
       <section className="rounded-3xl border border-[#dbe7f5] bg-white p-5 shadow-sm sm:p-7">
         <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center">
           <div className="rounded-[24px] border border-blue-100 bg-[#f8fbff] p-5">
@@ -162,6 +174,36 @@ export function AnalysisResultView({ result, token, initialPaid = false }: { res
         </button>
       )}
     </div>
+  );
+}
+
+function PaymentPendingNotice({ token }: { token?: string }) {
+  const resultHref = token ? `/result/${encodeURIComponent(token)}` : "/#checker";
+
+  return (
+    <section className="mb-6 rounded-3xl border border-blue-100 bg-blue-50 p-5 shadow-sm sm:p-6">
+      <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-black uppercase tracking-wide text-[#2563eb]">
+            <span className="size-2 rounded-full bg-[#2563eb]" aria-hidden="true" />
+            Payment confirmation pending
+          </div>
+          <h2 className="mt-3 text-xl font-black tracking-tight text-[#0f172a]">Your payment may still be confirming</h2>
+          <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[#53657d]">
+            Your payment was completed, but the unlock may take a few seconds to reach JobResumeMatch. This page will only show unlocked content after paid status is confirmed in the database.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+          <button className="primary-button focus-ring inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl px-5 font-extrabold" onClick={() => window.location.reload()}>
+            <RefreshCw aria-hidden="true" size={17} />
+            Refresh Status
+          </button>
+          <a className="focus-ring inline-flex min-h-[46px] items-center justify-center rounded-xl border border-[#bfd1ea] bg-white px-5 font-extrabold text-[#2563eb] hover:bg-blue-50" href={resultHref}>
+            Open Result
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 

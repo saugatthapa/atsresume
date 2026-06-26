@@ -44,7 +44,8 @@ export function PaymentUnlockModal({ open, token, onClose }: { open: boolean; to
       if (!response.ok || !data.checkoutUrl) throw new Error(data.error || "Unable to start checkout.");
       window.location.href = data.checkoutUrl;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to start payment.");
+      console.error("[payment.modal] checkout start failed", { errorMessage: err instanceof Error ? err.message : "Unknown checkout error." });
+      setError("Checkout could not be started. Please try again in a moment or contact support.");
     } finally {
       setLoading(false);
     }
@@ -90,7 +91,7 @@ export function PaymentUnlockModal({ open, token, onClose }: { open: boolean; to
         </p>
         <div className="mt-5 rounded-[20px] border border-blue-100 bg-blue-50 p-5">
           <p className="text-sm font-extrabold text-[#0b1220]">One-time unlock for this resume and job description</p>
-          <p className="mt-1 text-4xl font-black text-[#2563eb]">$4.99</p>
+          <p className="mt-1 text-4xl font-black text-[#2563eb]">€4.99</p>
         </div>
         {error && <p className="mt-4 rounded-2xl border border-rose-100 bg-rose-50 p-3 text-sm font-semibold text-rose-700">{error}</p>}
         <div className="mt-6 flex gap-3">
