@@ -72,7 +72,7 @@ export function ResumeJobForm() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Analysis failed.");
       trackEvent("resume_check_completed");
-      router.push(`/result/${data.token}`);
+      router.push(data.redirectUrl || `/result/${data.token}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {

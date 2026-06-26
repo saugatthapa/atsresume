@@ -3,7 +3,17 @@ import { AnalysisResult, analysisSchema } from "@/lib/schema";
 
 export async function analyzeWithAi(resumeText: string, jobDescription: string): Promise<AnalysisResult> {
   const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) return fallbackAnalyze(resumeText, jobDescription);
+  const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+  console.info("[analyze.ai] provider selected", {
+    provider: apiKey ? "groq" : "local_fallback",
+    model,
+    hasGroqApiKey: Boolean(apiKey)
+  });
+
+  if (!apiKey) {
+    console.info("[analyze.ai] using local fallback", { reason: "missing_groq_api_key" });
+    return fallbackAnalyze(resumeText, jobDescription);
+  }
 
   try {
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -13,7 +23,7 @@ export async function analyzeWithAi(resumeText: string, jobDescription: string):
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
+        model,
         temperature: 0.2,
         response_format: { type: "json_object" },
         messages: [
@@ -35,8 +45,14 @@ export async function analyzeWithAi(resumeText: string, jobDescription: string):
     const content = data.choices?.[0]?.message?.content;
     const parsed = analysisSchema.safeParse(parseAiJson(content));
     if (!parsed.success) throw new Error("AI response did not match schema");
+    console.info("[analyze.ai] groq response parsed", { parseSuccess: true });
     return postProcessAnalysis(parsed.data, resumeText, jobDescription);
-  } catch {
+  } catch (error) {
+    console.warn("[analyze.ai] groq unavailable, using local fallback", {
+      parseSuccess: false,
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : "Unknown Groq analysis failure."
+    });
     return fallbackAnalyze(resumeText, jobDescription);
   }
 }
