@@ -12,7 +12,7 @@ const plans = [
   {
     name: "Resume Export Pass",
     label: "One-time unlock",
-    price: "€4.99",
+    price: "$4.99",
     detail: "One-time unlock for this resume and job match. Export your optimized resume with clean downloadable files.",
     cta: "Start Free Check",
     recommended: true,

@@ -158,7 +158,7 @@ export function AnalysisResultView({ result, token, initialPaid = false }: { res
       />
       {!isPaid && (
         <button className="focus-ring fixed inset-x-4 bottom-4 z-40 inline-flex min-h-[52px] items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 font-extrabold text-white shadow-lg lg:hidden" onClick={() => setUnlockOpen(true)}>
-          Unlock Resume Export Pass - €4.99
+          Unlock Resume Export Pass
         </button>
       )}
     </div>
@@ -191,7 +191,7 @@ function UnlockSidebar({ isPaid, token, onUnlock }: { isPaid: boolean; token?: s
         <div className="mt-5 rounded-2xl border border-blue-100 bg-[#f8fbff] p-5">
           <p className="text-sm font-extrabold text-[#0f172a]">JobResumeMatch Resume Export Pass</p>
           <button className="focus-ring mt-4 inline-flex w-full justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 font-extrabold text-white shadow-sm hover:from-blue-700 hover:to-indigo-700" onClick={onUnlock}>
-            Unlock Resume Export Pass - €4.99
+            Unlock Resume Export Pass
           </button>
           <p className="mt-3 text-center text-xs font-semibold text-[#64748b]">No subscription. One-time unlock for this result.</p>
         </div>
@@ -219,7 +219,7 @@ function MobileUnlockCTA({ onUnlock }: { onUnlock: () => void }) {
       <h2 className="text-xl font-black text-[#0f172a]">Ready for the full resume?</h2>
       <p className="mt-2 text-sm leading-6 text-[#64748b]">Unlock the Resume Export Pass for the complete optimized resume, all rewrite suggestions, and clean PDF/DOCX downloads.</p>
       <button className="focus-ring mt-4 inline-flex rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 font-extrabold text-white shadow-sm" onClick={onUnlock}>
-        Unlock Resume Export Pass - €4.99
+        Unlock Resume Export Pass
       </button>
     </section>
   );
@@ -252,7 +252,7 @@ function ResumeDocument({ preview, locked, onUnlock }: { preview: ReturnType<typ
           </p>
           <p className="mx-auto mt-2 max-w-2xl text-xs font-semibold text-[#64748b]">Unlock to view the full optimized resume, projects, education, and all bullet improvements.</p>
           <button className="primary-button focus-ring mt-4 inline-flex rounded-xl px-5 py-3 font-extrabold" onClick={onUnlock}>
-            Unlock Resume Export Pass - €4.99
+            Unlock Resume Export Pass
           </button>
         </div>
       )}
