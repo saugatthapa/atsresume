@@ -1,4 +1,7 @@
 import { createHmac, timingSafeEqual } from "crypto";
+
+// Deprecated Paddle helpers. Paddle is retained for reference only and is not
+// used when PAYMENT_PROVIDER="dodo".
 export type PaddleTransaction = {
   id: string;
   status?: string;

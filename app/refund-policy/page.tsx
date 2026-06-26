@@ -82,7 +82,7 @@ export default function RefundPolicyPage() {
             ))}
           </ul>
           <p className="mt-5 leading-7 text-[#64748b]">
-            Payments are processed securely by Paddle. Refund processing may depend on Paddle payment records and review.
+            Payments are processed securely by our checkout provider. Refund processing may depend on payment records and review.
           </p>
         </section>
       </main>

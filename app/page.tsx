@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { redirect } from "next/navigation";
 import { ClipboardPaste, Download, FileCheck2, Gauge, LockKeyhole, ScanSearch, SearchCheck, ShieldCheck, Sparkles, Upload, WandSparkles } from "lucide-react";
 import { ActiveUsersBadge } from "@/components/ActiveUsersBadge";
 import { PricingCards } from "@/components/PricingCards";
@@ -50,14 +49,7 @@ const seoBlocks = [
   ["Safe guidance", "Use estimated ATS insights as practical guidance, never as a guarantee of hiring results."]
 ];
 
-export default async function HomePage({ searchParams }: { searchParams: Promise<{ _ptxn?: string; token?: string }> }) {
-  const { _ptxn: paddleTransactionId, token } = await searchParams;
-  if (paddleTransactionId) {
-    const params = new URLSearchParams({ _ptxn: paddleTransactionId });
-    if (token) params.set("token", token);
-    redirect(`/checkout?${params.toString()}`);
-  }
-
+export default async function HomePage() {
   return (
     <main>
       <JsonLd
@@ -151,7 +143,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
             </p>
           </div>
           <ul className="grid gap-2 text-sm font-semibold text-[#53657d] md:col-span-2 md:grid-cols-4">
-            {["No signup required to check your resume", "Estimated ATS match score, not a hiring guarantee", "Clean exports unlock only when your result is worth keeping", "Secure checkout powered by Paddle"].map((item) => (
+            {["No signup required to check your resume", "Estimated ATS match score, not a hiring guarantee", "Clean exports unlock only when your result is worth keeping", "Secure checkout for the Resume Export Pass"].map((item) => (
               <li key={item} className="rounded-2xl bg-[#f8fbff] px-4 py-3">
                 {item}
               </li>

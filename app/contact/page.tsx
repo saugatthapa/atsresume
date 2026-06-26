@@ -2,7 +2,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { createMetadata } from "@/lib/seo";
 
 const supportTopics = [
-  "Payment or Paddle checkout issue",
+  "Payment or checkout issue",
   "Resume Export Pass access issue",
   "PDF or DOCX download issue",
   "Refund request",

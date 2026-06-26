@@ -1,16 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createPaddleTransaction, PaddleCheckoutError } from "@/lib/payments";
+import { createDodoCheckout, DodoCheckoutError } from "@/lib/payments/dodo";
 import { ensureDatabase, prisma } from "@/lib/prisma";
-
-function appendResultToken(checkoutUrl: string | null | undefined, token: string) {
-  if (!checkoutUrl) return checkoutUrl;
-  const url = new URL(checkoutUrl);
-  url.searchParams.set("token", token);
-  return url.toString();
-}
 
 export async function POST(request: NextRequest) {
   try {
+    if (process.env.PAYMENTS_ENABLED !== "true") {
+      return NextResponse.json(
+        { error: "payments_disabled", message: "Payments are temporarily unavailable." },
+        { status: 503 }
+      );
+    }
+
+    if (process.env.PAYMENT_PROVIDER !== "dodo") {
+      return NextResponse.json({ error: "unsupported_payment_provider", message: "Dodo is not the active payment provider." }, { status: 503 });
+    }
+
     const { token } = await request.json();
     if (typeof token !== "string" || token.length < 20) {
       return NextResponse.json({ error: "Missing or invalid result token." }, { status: 400 });
@@ -22,27 +26,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Result not found or expired." }, { status: 404 });
     }
     if (analysis.paidStatus) {
-      return NextResponse.json({ paidStatus: true, redirectUrl: `/result/${token}` });
+      return NextResponse.json({ alreadyPaid: true, paidStatus: true, redirectUrl: `/result/${token}` });
     }
 
-    const transaction = await createPaddleTransaction({ token });
+    const checkout = await createDodoCheckout({ token, analysis });
     await prisma.analysis.update({
       where: { token },
       data: {
-        paymentProvider: "paddle",
-        paymentSessionId: transaction.id,
-        paymentOrderId: transaction.id,
-        paymentStatus: transaction.status || "checkout_created"
+        paymentProvider: "dodo",
+        paymentSessionId: checkout.sessionId || checkout.paymentId || null,
+        paymentOrderId: checkout.paymentId || checkout.sessionId || null,
+        paymentStatus: "checkout_created"
       }
     });
 
     return NextResponse.json({
-      checkoutUrl: appendResultToken(transaction.checkout?.url, token),
-      sessionId: transaction.id,
-      transactionId: transaction.id
+      checkoutUrl: checkout.checkoutUrl,
+      sessionId: checkout.sessionId,
+      paymentId: checkout.paymentId
     });
   } catch (error) {
-    if (error instanceof PaddleCheckoutError) {
+    if (error instanceof DodoCheckoutError) {
       return NextResponse.json({ error: error.message }, { status: 502 });
     }
 

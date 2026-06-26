@@ -85,17 +85,17 @@ export function PaymentUnlockModal({ open, token, onClose }: { open: boolean; to
         </h2>
         <p className="mt-3 leading-7 text-[#64748b]">
           {process.env.NODE_ENV === "development"
-            ? "Continue to Paddle checkout. Local test unlock is available separately below."
-            : "Continue to secure checkout. Full report access is unlocked only after payment is verified."}
+            ? "Secure checkout will open to complete your Resume Export Pass purchase. Test tools are available separately below."
+            : "Secure checkout will open to complete your Resume Export Pass purchase."}
         </p>
         <div className="mt-5 rounded-[20px] border border-blue-100 bg-blue-50 p-5">
           <p className="text-sm font-extrabold text-[#0b1220]">One-time unlock for this resume and job description</p>
-          <p className="mt-1 text-4xl font-black text-[#2563eb]">€4.99</p>
+          <p className="mt-1 text-4xl font-black text-[#2563eb]">$4.99</p>
         </div>
         {error && <p className="mt-4 rounded-2xl border border-rose-100 bg-rose-50 p-3 text-sm font-semibold text-rose-700">{error}</p>}
         <div className="mt-6 flex gap-3">
           <button className="primary-button focus-ring flex-1 rounded-xl px-4 py-3 font-extrabold disabled:cursor-not-allowed disabled:opacity-70" onClick={startCheckout} disabled={loading || devLoading}>
-            {loading ? "Opening checkout..." : "Unlock Resume Export Pass - €4.99"}
+            {loading ? "Opening checkout..." : "Unlock Resume Export Pass"}
           </button>
           <button className="focus-ring rounded-xl border border-[#dde7f5] px-4 py-3 font-extrabold text-[#0b1220] hover:bg-slate-50" onClick={onClose}>
             Cancel

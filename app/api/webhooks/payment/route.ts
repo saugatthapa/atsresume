@@ -3,6 +3,10 @@ import { getPaddleConfig, isExpectedPaddlePrice, isPaidPaddleTransaction, Paddle
 import { ensureDatabase, prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
+  if (process.env.PAYMENT_PROVIDER !== "paddle") {
+    return NextResponse.json({ error: "paddle_deprecated" }, { status: 410 });
+  }
+
   const payload = await request.text();
   const signature = request.headers.get("paddle-signature");
   const { webhookSecret } = getPaddleConfig();
