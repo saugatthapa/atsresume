@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { PaymentSuccessStatus } from "./PaymentSuccessStatus";
 import { ensureDatabase, prisma } from "@/lib/prisma";
 
@@ -10,20 +9,20 @@ export const metadata: Metadata = {
 
 export default async function PaymentSuccessPage({ searchParams }: { searchParams: Promise<{ token?: string; provider?: string }> }) {
   const { token, provider } = await searchParams;
-  if (!token) redirect("/");
 
   let unlocked = false;
-  if (provider === "dodo") {
+  let found = false;
+  if (token && token.length >= 20) {
     await ensureDatabase();
     const analysis = await prisma.analysis.findUnique({ where: { token }, select: { paidStatus: true } });
+    found = Boolean(analysis);
     unlocked = analysis?.paidStatus === true;
   }
 
   return (
-    <main className="container py-20">
-      <div className="max-w-2xl rounded-[28px] border border-[#dde7f5] bg-white p-8 shadow-[0_18px_44px_-28px_rgba(8,20,51,0.18)]">
-        <h1 className="text-4xl font-black text-[#0b1220]">Payment received</h1>
-        <PaymentSuccessStatus token={token} initialUnlocked={unlocked} />
+    <main className="bg-[#f6f9ff]">
+      <div className="container flex min-h-[calc(100vh-160px)] items-center justify-center py-12 sm:py-16">
+        <PaymentSuccessStatus token={token} initialUnlocked={provider === "dodo" && unlocked} initialFound={found} />
       </div>
     </main>
   );

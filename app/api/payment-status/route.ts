@@ -4,7 +4,7 @@ import { ensureDatabase, prisma } from "@/lib/prisma";
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token")?.trim();
   if (!token || token.length < 20) {
-    return NextResponse.json({ error: "missing_token", paidStatus: false }, { status: 400 });
+    return NextResponse.json({ paidStatus: false }, { status: 400 });
   }
 
   await ensureDatabase();
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!analysis) {
-    return NextResponse.json({ error: "not_found", paidStatus: false }, { status: 404 });
+    return NextResponse.json({ paidStatus: false }, { status: 404 });
   }
 
   return NextResponse.json({ paidStatus: analysis.paidStatus });
