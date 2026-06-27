@@ -86,12 +86,19 @@ Deploy to Vercel or another Next.js host. Set production environment variables, 
 1. Add `jobresumematch.com` to Google Search Console.
 2. Verify the domain.
 3. Submit `https://jobresumematch.com/sitemap.xml`.
-4. Use URL Inspection for the homepage and primary tool pages.
-5. Request indexing after launch.
-6. Connect Google Analytics and Search Console.
-7. Confirm `https://jobresumematch.com/robots.txt`.
-8. Check sitemap status.
-9. Monitor Core Web Vitals.
+4. Request indexing for top pages after deployment:
+   - `https://jobresumematch.com/`
+   - `https://jobresumematch.com/blog`
+   - `https://jobresumematch.com/blog/how-to-match-resume-to-job-description`
+   - `https://jobresumematch.com/blog/ats-resume-keywords`
+   - `https://jobresumematch.com/blog/what-is-a-good-ats-resume-score`
+5. Use URL Inspection for the homepage, blog hub, priority blog posts, and primary tool pages.
+6. Confirm `https://jobresumematch.com/robots.txt` returns 200 and references `https://jobresumematch.com/sitemap.xml`.
+7. Confirm `https://jobresumematch.com/sitemap.xml` returns 200 and includes the blog URLs.
+8. Monitor impressions and queries weekly.
+9. Improve posts that get impressions but low CTR.
+10. Connect Google Analytics and Search Console.
+11. Monitor Core Web Vitals.
 
 ## Payment Integration Notes
 

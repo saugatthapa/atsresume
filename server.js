@@ -18,15 +18,9 @@ Disallow: /_next/static/chunks/*.map
 
 Sitemap: https://jobresumematch.com/sitemap.xml
 `;
-const legacyRedirects = new Map([
-  ["/blog/how-to-match-resume-to-job-description", "/blog/how-to-match-your-resume-to-a-job-description"],
-  ["/blog/how-to-improve-ats-score", "/blog/how-to-improve-your-ats-score"]
-]);
-
 app.prepare().then(() => {
   createServer((req, res) => {
     const parsedUrl = parse(req.url || "/", true);
-    const destination = legacyRedirects.get(parsedUrl.pathname || "");
 
     if (parsedUrl.pathname === "/robots.txt") {
       res.statusCode = 200;
@@ -34,13 +28,6 @@ app.prepare().then(() => {
       res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
       res.setHeader("Content-Length", Buffer.byteLength(robotsTxt));
       res.end(req.method === "HEAD" ? undefined : robotsTxt);
-      return;
-    }
-
-    if (destination) {
-      res.statusCode = 308;
-      res.setHeader("Location", destination);
-      res.end();
       return;
     }
 

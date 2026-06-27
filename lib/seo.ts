@@ -11,12 +11,14 @@ export function createMetadata({
   title,
   description,
   path,
-  noIndex = false
+  noIndex = false,
+  openGraphType = "website"
 }: {
   title: string;
   description: string;
   path: string;
   noIndex?: boolean;
+  openGraphType?: "website" | "article";
 }): Metadata {
   return {
     title,
@@ -26,7 +28,7 @@ export function createMetadata({
     openGraph: {
       title,
       description,
-      type: "website",
+      type: openGraphType,
       url: absoluteUrl(path),
       siteName,
       images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "JobResumeMatch ATS resume checker" }]

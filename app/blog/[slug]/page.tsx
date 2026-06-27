@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { BlogArticlePage } from "@/components/BlogArticlePage";
 import { blogPosts, getBlogPost } from "@/lib/blog-posts";
 import { createMetadata } from "@/lib/seo";
-
-const legacyRedirects: Record<string, string> = {
-  "how-to-match-resume-to-job-description": "/blog/how-to-match-your-resume-to-a-job-description",
-  "how-to-improve-ats-score": "/blog/how-to-improve-your-ats-score"
-};
 
 type BlogRouteProps = {
   params: Promise<{ slug: string }>;
@@ -33,16 +28,13 @@ export async function generateMetadata({ params }: BlogRouteProps): Promise<Meta
   return createMetadata({
     title: post.metaTitle,
     description: post.description,
-    path: post.slug
+    path: post.slug,
+    openGraphType: "article"
   });
 }
 
 export default async function BlogPostRoute({ params }: BlogRouteProps) {
   const { slug } = await params;
-
-  if (legacyRedirects[slug]) {
-    redirect(legacyRedirects[slug]);
-  }
 
   const post = getBlogPost(`/blog/${slug}`);
   if (!post) notFound();

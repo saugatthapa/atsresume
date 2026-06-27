@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     entry("/", 1, "weekly"),
     entry("/pricing", 0.7, "monthly"),
-    entry("/blog", 0.7, "weekly"),
+    entry("/blog", 0.8, "weekly"),
     entry("/about", 0.5, "yearly"),
     entry("/contact", 0.4, "yearly"),
     entry("/refund-policy", 0.4, "yearly"),

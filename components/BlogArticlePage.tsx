@@ -12,7 +12,8 @@ const toolLinks = [
   { href: "/resume-match-score", label: "resume match score" },
   { href: "/resume-keyword-scanner", label: "resume keyword scanner" },
   { href: "/match-resume-to-job-description", label: "match resume to job description" },
-  { href: "/resume-optimizer", label: "resume optimizer" }
+  { href: "/resume-optimizer", label: "resume optimizer" },
+  { href: "/pricing", label: "Resume Export Pass" }
 ];
 
 function formatDate(value: string) {
@@ -59,6 +60,33 @@ function faqJsonLd(post: BlogPost) {
   };
 }
 
+function breadcrumbJsonLd(post: BlogPost) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: absoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: absoluteUrl("/blog")
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.h1,
+        item: absoluteUrl(post.slug)
+      }
+    ]
+  };
+}
+
 export function BlogArticlePage({ post }: { post: BlogPost }) {
   const relatedPosts = getRelatedBlogPosts(post);
 
@@ -66,6 +94,7 @@ export function BlogArticlePage({ post }: { post: BlogPost }) {
     <>
       <JsonLd data={blogPostingJsonLd(post)} />
       <JsonLd data={faqJsonLd(post)} />
+      <JsonLd data={breadcrumbJsonLd(post)} />
       <Breadcrumbs items={[{ name: "Blog", href: "/blog" }, { name: post.h1 }]} />
       <main className="container py-10">
         <article className="mx-auto max-w-[850px]">
@@ -97,6 +126,14 @@ export function BlogArticlePage({ post }: { post: BlogPost }) {
               <ArrowRight aria-hidden="true" size={17} />
             </Link>
           </div>
+
+          <section className="mt-7 rounded-[18px] border border-[#dde7f5] bg-white p-5">
+            <p className="text-sm font-extrabold uppercase tracking-wide text-[#2563eb]">Author</p>
+            <h2 className="mt-2 text-xl font-black tracking-tight text-[#0b1220]">JobResumeMatch Editorial Team</h2>
+            <p className="mt-2 leading-7 text-[#64748b]">
+              JobResumeMatch provides estimated resume matching and improvement guidance. It does not guarantee interviews, job offers, or ATS approval.
+            </p>
+          </section>
 
           <nav aria-label="Table of contents" className="mt-8 rounded-[22px] border border-[#dde7f5] bg-white p-5 shadow-[0_14px_34px_-30px_rgba(8,20,51,0.18)]">
             <p className="text-sm font-extrabold uppercase tracking-wide text-[#2563eb]">Table of contents</p>
@@ -196,7 +233,7 @@ export function BlogArticlePage({ post }: { post: BlogPost }) {
           </section>
 
           <p className="mt-8 rounded-[18px] border border-[#dde7f5] bg-[#fbfdff] p-5 text-sm font-semibold leading-7 text-[#64748b]">
-            This is educational guidance. ATS systems and hiring processes vary by company.
+            Resume match scores and suggestions are estimated guidance only. Always review and edit your resume before applying.
           </p>
 
           <section className="mt-12 rounded-[22px] border border-[#dde7f5] bg-white p-6 md:p-8">

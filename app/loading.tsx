@@ -6,7 +6,7 @@ export default function Loading() {
           <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-blue-50">
             <span className="size-5 animate-spin rounded-full border-2 border-blue-200 border-t-[#2563eb]" aria-hidden="true" />
           </div>
-          <h1 className="mt-5 text-2xl font-black tracking-tight text-[#0f172a]">Preparing your page...</h1>
+          <p className="mt-5 text-2xl font-black tracking-tight text-[#0f172a]">Preparing your page...</p>
           <p className="mt-2 text-sm font-semibold text-[#64748b]">This usually takes a few seconds.</p>
         </div>
       </section>
